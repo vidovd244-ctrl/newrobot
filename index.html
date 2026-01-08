@@ -4,30 +4,37 @@
 <meta charset="UTF-8">
 <title>PoworBot</title>
 <style>
+  /* الجسم والخلفية */
   body {
     margin: 0;
     padding: 0;
-    background: radial-gradient(circle at top, #0a0a0a, #111111 70%);
-    color: #00ffea;
+    background-color: black; /* خلفية سوداء داكنة */
+    color: #00ffea;          /* نص أزرق نيون */
     font-family: 'Courier New', Courier, monospace;
     overflow: hidden;
+    text-align: center;
   }
+
+  /* حاوية النصوص والأزرار في وسط الصفحة */
   #container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    text-align: center;
   }
+
   h1 {
     font-size: 48px;
     text-shadow: 0 0 10px #00ffea;
     margin-bottom: 20px;
   }
+
   p {
     font-size: 22px;
     text-shadow: 0 0 8px #00ffea;
   }
+
+  /* الأزرار بأسلوب Cyberpunk */
   button {
     background-color: #ff0066;
     color: white;
@@ -40,6 +47,7 @@
     box-shadow: 0 0 15px #ff0066;
     transition: 0.3s;
   }
+
   button:hover {
     box-shadow: 0 0 25px #ff00aa;
   }
@@ -55,13 +63,12 @@
 </div>
 
 <script>
-  // نص PoworBot تدريجيًا
+  // النصوص تدريجيًا (Typewriter effect)
   const text1 = "تم رصد حضورك...";
   const text2 = "مرحبا، أنا PoworBot، سيد هذا العالم.";
   const titleEl = document.getElementById("title");
   const subtitleEl = document.getElementById("subtitle");
 
-  let i = 0;
   function typeText(el, text, callback) {
     let index = 0;
     function addChar() {
@@ -82,7 +89,7 @@
     }, 500);
   });
 
-  // الأصوات
+  // الأصوات PoworBot المسيطر
   function playSound(type) {
     let audio;
     if(type === 'female') {
