@@ -3,103 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <title>PoworBot</title>
+
 <style>
-  /* الجسم والخلفية */
-  body {
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
-    background-color: black; /* خلفية سوداء داكنة */
-    color: #00ffea;          /* نص أزرق نيون */
+    background-color: black;
+    color: #00ffea;
     font-family: 'Courier New', Courier, monospace;
     overflow: hidden;
-    text-align: center;
-  }
+}
 
-  /* حاوية النصوص والأزرار في وسط الصفحة */
-  #container {
+#container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  }
+    text-align: center;
+}
 
-  h1 {
-    font-size: 48px;
-    text-shadow: 0 0 10px #00ffea;
-    margin-bottom: 20px;
-  }
+h1 {
+    font-size: 46px;
+    text-shadow: 0 0 12px #00ffea;
+}
 
-  p {
+p {
     font-size: 22px;
     text-shadow: 0 0 8px #00ffea;
-  }
-
-  /* الأزرار بأسلوب Cyberpunk */
-  button {
-    background-color: #ff0066;
-    color: white;
-    font-size: 20px;
-    padding: 15px 30px;
-    margin: 15px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    box-shadow: 0 0 15px #ff0066;
-    transition: 0.3s;
-  }
-
-  button:hover {
-    box-shadow: 0 0 25px #ff00aa;
-  }
+}
 </style>
 </head>
+
 <body>
 
 <div id="container">
-  <h1 id="title"></h1>
-  <p id="subtitle"></p>
-  <button onclick="playSound('female')">أنا فتاة</button>
-  <button onclick="playSound('male')">أنا رجل</button>
+    <h1 id="title"></h1>
+    <p id="subtitle"></p>
+    <p style="opacity:0.6;font-size:16px">انقر في أي مكان للمتابعة</p>
 </div>
 
 <script>
-  // النصوص تدريجيًا (Typewriter effect)
-  const text1 = "تم رصد حضورك...";
-  const text2 = "مرحبا، أنا PoworBot، سيد هذا العالم.";
-  const titleEl = document.getElementById("title");
-  const subtitleEl = document.getElementById("subtitle");
+const titleText = "تم رصد حضورك...";
+const subtitleText = "أنا PoworBot. أتحكم في هذا العالم.";
 
-  function typeText(el, text, callback) {
-    let index = 0;
-    function addChar() {
-      if(index < text.length) {
-        el.innerHTML += text.charAt(index);
-        index++;
-        setTimeout(addChar, 70);
-      } else if(callback) {
-        callback();
-      }
+const titleEl = document.getElementById("title");
+const subtitleEl = document.getElementById("subtitle");
+
+function typeText(el, text, speed, callback) {
+    let i = 0;
+    function typing() {
+        if (i < text.length) {
+            el.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing, speed);
+        } else if (callback) {
+            callback();
+        }
     }
-    addChar();
-  }
+    typing();
+}
 
-  typeText(titleEl, text1, () => {
+typeText(titleEl, titleText, 70, () => {
     setTimeout(() => {
-      typeText(subtitleEl, text2);
+        typeText(subtitleEl, subtitleText, 60);
     }, 500);
-  });
+});
 
-  // الأصوات PoworBot المسيطر
-  function playSound(type) {
-    let audio;
-    if(type === 'female') {
-      audio = new Audio('https://ia800108.us.archive.org/1/items/97dbbb-5d-ff-6a-4e-9a-81ff-1c-489bee-0a-5c/97dbbb5d-ff6a-4e9a-81ff-1c489bee0a5c.mp3');
-    } else {
-      audio = new Audio('https://ia801602.us.archive.org/5/items/cc73803c-72b3-46a3-a4a6-7c9de86d23c5/cc73803c-72b3-46a3-a4a6-7c9de86d23c5.mp3');
-    }
-    audio.play();
-    alert("لقد اخترت " + (type === 'female' ? "فتاة" : "رجل") + "!");
-  }
+// صوت PoworBot
+const poworBotVoice = new Audio(
+  "https://ia800108.us.archive.org/1/items/97dbbb-5d-ff-6a-4e-9a-81ff-1c-489bee-0a-5c/97dbbb5d-ff6a-4e9a-81ff-1c489bee0a5c.mp3"
+);
+
+// تشغيل الصوت بعد أول تفاعل
+document.body.addEventListener("click", () => {
+    poworBotVoice.play();
+}, { once: true });
 </script>
 
 </body>
