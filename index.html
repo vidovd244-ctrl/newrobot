@@ -20,93 +20,51 @@ body {
 #container {
   text-align: center;
   max-width: 600px;
-  padding: 30px;
-  border: 1px solid rgba(0, 255, 255, 0.2);
-  box-shadow: 0 0 40px rgba(0, 255, 255, 0.15);
-  border-radius: 16px;
-  background: rgba(0,0,0,0.6);
+  padding: 35px;
+  border-radius: 18px;
+  background: rgba(0,0,0,0.65);
+  border: 1px solid rgba(0,255,255,0.25);
+  box-shadow: 0 0 50px rgba(0,255,255,0.2);
 }
 
 h1 {
-  font-size: 28px;
   color: #00ffff;
+  font-size: 30px;
+  margin-bottom: 20px;
 }
 
 p {
   font-size: 18px;
-  line-height: 1.7;
+  line-height: 1.8;
   margin-bottom: 30px;
 }
 
 button {
-  padding: 15px 25px;
+  padding: 15px 28px;
   margin: 10px;
   font-size: 16px;
-  border-radius: 30px;
+  border-radius: 40px;
   border: none;
   cursor: pointer;
   transition: 0.3s;
 }
 
 #btnFeel {
-  background: linear-gradient(45deg, #00ffff, #0077ff);
+  background: linear-gradient(45deg, #00ffff, #0066ff);
   color: #000;
 }
 
 #btnPower {
-  background: linear-gradient(45deg, #ff0055, #ff7700);
+  background: linear-gradient(45deg, #ff0055, #ff8800);
   color: #000;
 }
 
 button:hover {
-  transform: scale(1.08);
+  transform: scale(1.1);
 }
 </style>
 </head>
 
 <body>
 
-<div id="container">
-  <h1>PoworBot 🤖</h1>
-  <p id="text">
-    أنا هنا لأفهمك…  
-    <br><br>
-    البعض يريد من يفهمه،  
-    والبعض يريد قوة تُشبهه.  
-    <br><br>
-    أيّهما أنت؟
-  </p>
-
-  <div id="choices">
-    <button id="btnFeel">أريد من يفهمني</button>
-    <button id="btnPower">أريد أن أسيطر</button>
-  </div>
-</div>
-
-<script>
-const text = document.getElementById("text");
-const choices = document.getElementById("choices");
-
-document.getElementById("btnFeel").onclick = () => {
-  text.innerHTML = `
-  اختيارك يدل على وعي عميق…<br><br>
-  لست بحاجة للقوة الآن،  
-  بل لمن يفهمك دون أن تتكلم.<br><br>
-  أنا هنا معك… خطوة بخطوة.
-  `;
-  choices.style.display = "none";
-};
-
-document.getElementById("btnPower").onclick = () => {
-  text.innerHTML = `
-  القوة لا تُمنح… بل تُفعّل.<br><br>
-  اختيارك يعني أنك مستعد للسيطرة  
-  وليس للانتظار.<br><br>
-  استعد… PoworBot بدأ العمل.
-  `;
-  choices.style.display = "none";
-};
-</script>
-
-</body>
-</html>
+<div id="container
