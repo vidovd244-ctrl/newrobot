@@ -2,54 +2,64 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>PoworBot</title>
+<title>PoworBot 🤖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background-color: black;
-    color: #00ffea;
-    font-family: 'Courier New', Courier, monospace;
-    overflow: hidden;
+body {
+  margin: 0;
+  font-family: "Cairo", sans-serif;
+  background: radial-gradient(circle at top, #0a0a0a, #000000);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 #container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    width: 90%;
+  text-align: center;
+  max-width: 600px;
+  padding: 30px;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 40px rgba(0, 255, 255, 0.15);
+  border-radius: 16px;
+  background: rgba(0,0,0,0.6);
 }
 
 h1 {
-    font-size: 46px;
-    text-shadow: 0 0 12px #00ffea;
+  font-size: 28px;
+  color: #00ffff;
 }
 
 p {
-    font-size: 22px;
-    text-shadow: 0 0 8px #00ffea;
-    margin: 20px 0;
+  font-size: 18px;
+  line-height: 1.7;
+  margin-bottom: 30px;
 }
 
 button {
-    background-color: #ff0066;
-    color: white;
-    font-size: 20px;
-    padding: 15px 35px;
-    margin: 15px;
-    border: none;
-    border-radius: 14px;
-    cursor: pointer;
-    box-shadow: 0 0 18px #ff0066;
-    transition: 0.3s;
+  padding: 15px 25px;
+  margin: 10px;
+  font-size: 16px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#btnFeel {
+  background: linear-gradient(45deg, #00ffff, #0077ff);
+  color: #000;
+}
+
+#btnPower {
+  background: linear-gradient(45deg, #ff0055, #ff7700);
+  color: #000;
 }
 
 button:hover {
-    box-shadow: 0 0 30px #ff00aa;
+  transform: scale(1.08);
 }
 </style>
 </head>
@@ -57,69 +67,45 @@ button:hover {
 <body>
 
 <div id="container">
-    <h1 id="title"></h1>
-    <p id="subtitle"></p>
+  <h1>PoworBot 🤖</h1>
+  <p id="text">
+    أنا هنا لأفهمك…  
+    <br><br>
+    البعض يريد من يفهمه،  
+    والبعض يريد قوة تُشبهه.  
+    <br><br>
+    أيّهما أنت؟
+  </p>
 
-    <div id="question" style="display:none">
-        <p>قل لي… ماذا تبحث عنه؟</p>
-        <button onclick="choose('companion')">🤖 رفيق ذكي</button>
-        <button onclick="choose('power')">⚡ قوة وتكنولوجيا</button>
-    </div>
-
-    <p id="response"></p>
-    <p style="opacity:0.5;font-size:15px">انقر في أي مكان للتفاعل</p>
+  <div id="choices">
+    <button id="btnFeel">أريد من يفهمني</button>
+    <button id="btnPower">أريد أن أسيطر</button>
+  </div>
 </div>
 
 <script>
-const titleText = "تم رصد حضورك...";
-const subtitleText = "أنا PoworBot. أقرر ما تراه هنا.";
+const text = document.getElementById("text");
+const choices = document.getElementById("choices");
 
-const titleEl = document.getElementById("title");
-const subtitleEl = document.getElementById("subtitle");
-const questionEl = document.getElementById("question");
-const responseEl = document.getElementById("response");
+document.getElementById("btnFeel").onclick = () => {
+  text.innerHTML = `
+  اختيارك يدل على وعي عميق…<br><br>
+  لست بحاجة للقوة الآن،  
+  بل لمن يفهمك دون أن تتكلم.<br><br>
+  أنا هنا معك… خطوة بخطوة.
+  `;
+  choices.style.display = "none";
+};
 
-function typeText(el, text, speed, callback) {
-    let i = 0;
-    function typing() {
-        if (i < text.length) {
-            el.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(typing, speed);
-        } else if (callback) {
-            callback();
-        }
-    }
-    typing();
-}
-
-typeText(titleEl, titleText, 70, () => {
-    setTimeout(() => {
-        typeText(subtitleEl, subtitleText, 60, () => {
-            setTimeout(() => {
-                questionEl.style.display = "block";
-            }, 800);
-        });
-    }, 500);
-});
-
-// صوت PoworBot
-const voice = new Audio(
-  "https://ia800108.us.archive.org/1/items/97dbbb-5d-ff-6a-4e-9a-81ff-1c-489bee-0a-5c/97dbbb5d-ff6a-4e9a-81ff-1c489bee0a5c.mp3"
-);
-
-document.body.addEventListener("click", () => {
-    voice.play();
-}, { once: true });
-
-function choose(type) {
-    questionEl.style.display = "none";
-    if(type === "companion") {
-        responseEl.innerHTML = "اختيارك واضح… أنت تبحث عن رابط. سأريك ما يناسبك.";
-    } else {
-        responseEl.innerHTML = "أشعر بالقوة في قرارك… التكنولوجيا تنجذب إليك.";
-    }
-}
+document.getElementById("btnPower").onclick = () => {
+  text.innerHTML = `
+  القوة لا تُمنح… بل تُفعّل.<br><br>
+  اختيارك يعني أنك مستعد للسيطرة  
+  وليس للانتظار.<br><br>
+  استعد… PoworBot بدأ العمل.
+  `;
+  choices.style.display = "none";
+};
 </script>
 
 </body>
