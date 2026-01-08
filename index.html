@@ -21,6 +21,7 @@ html, body {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    width: 90%;
 }
 
 h1 {
@@ -31,6 +32,24 @@ h1 {
 p {
     font-size: 22px;
     text-shadow: 0 0 8px #00ffea;
+    margin: 20px 0;
+}
+
+button {
+    background-color: #ff0066;
+    color: white;
+    font-size: 20px;
+    padding: 15px 35px;
+    margin: 15px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 0 18px #ff0066;
+    transition: 0.3s;
+}
+
+button:hover {
+    box-shadow: 0 0 30px #ff00aa;
 }
 </style>
 </head>
@@ -40,15 +59,25 @@ p {
 <div id="container">
     <h1 id="title"></h1>
     <p id="subtitle"></p>
-    <p style="opacity:0.6;font-size:16px">انقر في أي مكان للمتابعة</p>
+
+    <div id="question" style="display:none">
+        <p>قل لي… ماذا تبحث عنه؟</p>
+        <button onclick="choose('companion')">🤖 رفيق ذكي</button>
+        <button onclick="choose('power')">⚡ قوة وتكنولوجيا</button>
+    </div>
+
+    <p id="response"></p>
+    <p style="opacity:0.5;font-size:15px">انقر في أي مكان للتفاعل</p>
 </div>
 
 <script>
 const titleText = "تم رصد حضورك...";
-const subtitleText = "أنا PoworBot. أتحكم في هذا العالم.";
+const subtitleText = "أنا PoworBot. أقرر ما تراه هنا.";
 
 const titleEl = document.getElementById("title");
 const subtitleEl = document.getElementById("subtitle");
+const questionEl = document.getElementById("question");
+const responseEl = document.getElementById("response");
 
 function typeText(el, text, speed, callback) {
     let i = 0;
@@ -66,19 +95,31 @@ function typeText(el, text, speed, callback) {
 
 typeText(titleEl, titleText, 70, () => {
     setTimeout(() => {
-        typeText(subtitleEl, subtitleText, 60);
+        typeText(subtitleEl, subtitleText, 60, () => {
+            setTimeout(() => {
+                questionEl.style.display = "block";
+            }, 800);
+        });
     }, 500);
 });
 
 // صوت PoworBot
-const poworBotVoice = new Audio(
+const voice = new Audio(
   "https://ia800108.us.archive.org/1/items/97dbbb-5d-ff-6a-4e-9a-81ff-1c-489bee-0a-5c/97dbbb5d-ff6a-4e9a-81ff-1c489bee0a5c.mp3"
 );
 
-// تشغيل الصوت بعد أول تفاعل
 document.body.addEventListener("click", () => {
-    poworBotVoice.play();
+    voice.play();
 }, { once: true });
+
+function choose(type) {
+    questionEl.style.display = "none";
+    if(type === "companion") {
+        responseEl.innerHTML = "اختيارك واضح… أنت تبحث عن رابط. سأريك ما يناسبك.";
+    } else {
+        responseEl.innerHTML = "أشعر بالقوة في قرارك… التكنولوجيا تنجذب إليك.";
+    }
+}
 </script>
 
 </body>
