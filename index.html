@@ -3,10 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <title>PoworBot</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 100px;
+    }
+    h1 { font-size: 36px; }
+    button {
+      background-color: #1e90ff;
+      color: white;
+      font-size: 20px;
+      padding: 15px 30px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0f78d1;
+    }
+  </style>
 </head>
 <body>
+
   <h1>مرحبا بك في PoworBot 🤖</h1>
-  <p>تهانينا! هذا أول موقع لك على GitHub Pages</p>
+  <p>اختر نوع صوت PoworBot الخاص بك:</p>
+
+  <button onclick="playSound('female')">أنا فتاة</button>
+  <button onclick="playSound('male')">أنا رجل</button>
+
+  <script>
+    function playSound(type) {
+      let audio;
+      if(type === 'female') {
+        audio = new Audio('https://ia800108.us.archive.org/1/items/97dbbb-5d-ff-6a-4e-9a-81ff-1c-489bee-0a-5c/97dbbb5d-ff6a-4e9a-81ff-1c489bee0a5c.mp3');
+      } else {
+        audio = new Audio('https://ia801602.us.archive.org/5/items/cc73803c-72b3-46a3-a4a6-7c9de86d23c5/cc73803c-72b3-46a3-a4a6-7c9de86d23c5.mp3');
+      }
+      audio.play();
+      alert("لقد اخترت " + (type === 'female' ? "فتاة" : "رجل") + "!");
+    }
+  </script>
+
 </body>
 </html>
-
