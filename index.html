@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>PoworBot 🤖</title>
+<title>PoworBot 🤖 – المستقبل</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -16,37 +16,47 @@ body {
   justify-content: center;
   height: 100vh;
   direction: rtl;
+  overflow: hidden;
 }
 
 #container {
   text-align: center;
-  max-width: 600px;
-  padding: 30px;
-  border-radius: 18px;
-  background: rgba(0,0,0,0.7);
-  border: 1px solid rgba(0,255,255,0.25);
-  box-shadow: 0 0 50px rgba(0,255,255,0.2);
+  max-width: 650px;
+  padding: 40px;
+  border-radius: 20px;
+  background: rgba(0,0,0,0.75);
+  border: 1px solid rgba(0,255,255,0.35);
+  box-shadow: 0 0 60px rgba(0,255,255,0.25);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 30px rgba(0,255,255,0.15);}
+  100% { box-shadow: 0 0 60px rgba(0,255,255,0.45);}
 }
 
 h1 {
-  font-size: 32px;
-  margin-bottom: 20px;
+  font-size: 34px;
+  margin-bottom: 25px;
+  text-shadow: 0 0 10px #00ffff;
 }
 
 p {
   font-size: 18px;
   line-height: 1.8;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
+  text-shadow: 0 0 5px #00ffff;
 }
 
 button {
-  padding: 15px 28px;
+  padding: 16px 30px;
   margin: 10px;
   font-size: 16px;
-  border-radius: 40px;
+  border-radius: 45px;
   border: none;
   cursor: pointer;
   transition: 0.3s;
+  box-shadow: 0 0 10px rgba(0,255,255,0.25);
 }
 
 #btnFeel {
@@ -61,6 +71,7 @@ button {
 
 button:hover {
   transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(255,255,255,0.5);
 }
 </style>
 </head>
