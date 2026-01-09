@@ -73,3 +73,53 @@ button:hover {
     أنا هنا لأفهمك…<br><br>
     البعض يريد من يفهمه،<br>
     والبعض يريد قوة تُشبهه.<br><br>
+    أيّهما أنت؟
+  </p>
+
+  <div id="choices">
+    <button id="btnFeel">أريد من يفهمني</button>
+    <button id="btnPower">أريد أن أسيطر</button>
+  </div>
+</div>
+
+<!-- الأصوات -->
+<audio id="voiceFemale" src="https://ia800108.us.archive.org/1/items/97dbbb-5d-ff-6a-4e-9a-81ff-1c-489bee-0a-5c/97dbbb5d-ff6a-4e9a-81ff-1c489bee0a5c.mp3"></audio>
+<audio id="voiceMale" src="https://ia801602.us.archive.org/5/items/cc73803c-72b3-46a3-a4a6-7c9de86d23c5/cc73803c-72b3-46a3-a4a6-7c9de86d23c5.mp3"></audio>
+
+<script>
+const text = document.getElementById("text");
+const choices = document.getElementById("choices");
+
+// الزر "أريد من يفهمني"
+document.getElementById("btnFeel").onclick = () => {
+  const female = document.getElementById("voiceFemale");
+  female.currentTime = 0;
+  female.play();
+
+  text.innerHTML = `
+  اختيارك يدل على وعي عميق…<br><br>
+  لست بحاجة للقوة الآن،<br>
+  بل لمن يفهمك دون أن تتكلم.<br><br>
+  أنا هنا معك… خطوة بخطوة.
+  `;
+  choices.style.display = "none";
+};
+
+// الزر "أريد أن أسيطر"
+document.getElementById("btnPower").onclick = () => {
+  const male = document.getElementById("voiceMale");
+  male.currentTime = 0;
+  male.play();
+
+  text.innerHTML = `
+  القوة لا تُمنح… بل تُفعّل.<br><br>
+  اختيارك يعني أنك مستعد للسيطرة،<br>
+  لا للانتظار.<br><br>
+  PoworBot بدأ العمل.
+  `;
+  choices.style.display = "none";
+};
+</script>
+
+</body>
+</html>
