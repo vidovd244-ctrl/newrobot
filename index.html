@@ -2,134 +2,117 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>PoworBot 🤖 – المستقبل</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PoworBot • Cyber Interface</title>
 
 <style>
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: radial-gradient(circle at top, #0a0a0a, #000000);
-  color: #00ffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  direction: rtl;
-  overflow: hidden;
+    margin:0;
+    background:black;
+    color:#00f6ff;
+    font-family: 'Segoe UI', Tahoma;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
 }
 
-#container {
-  text-align: center;
-  max-width: 650px;
-  padding: 40px;
-  border-radius: 20px;
-  background: rgba(0,0,0,0.75);
-  border: 1px solid rgba(0,255,255,0.35);
-  box-shadow: 0 0 60px rgba(0,255,255,0.25);
-  animation: glow 2s ease-in-out infinite alternate;
+#terminal {
+    width:90%;
+    max-width:700px;
+    background:#050b10;
+    border:2px solid #00f6ff;
+    padding:20px;
+    box-shadow:0 0 30px #00f6ff;
 }
 
-@keyframes glow {
-  0% { box-shadow: 0 0 30px rgba(0,255,255,0.15);}
-  100% { box-shadow: 0 0 60px rgba(0,255,255,0.45);}
-}
-
-h1 {
-  font-size: 34px;
-  margin-bottom: 25px;
-  text-shadow: 0 0 10px #00ffff;
-}
-
-p {
-  font-size: 18px;
-  line-height: 1.8;
-  margin-bottom: 35px;
-  text-shadow: 0 0 5px #00ffff;
+#output {
+    min-height:300px;
+    white-space:pre-line;
+    margin-bottom:20px;
 }
 
 button {
-  padding: 16px 30px;
-  margin: 10px;
-  font-size: 16px;
-  border-radius: 45px;
-  border: none;
-  cursor: pointer;
-  transition: 0.3s;
-  box-shadow: 0 0 10px rgba(0,255,255,0.25);
+    background:black;
+    color:#00f6ff;
+    border:1px solid #00f6ff;
+    padding:10px 20px;
+    margin:5px;
+    cursor:pointer;
+    transition:0.3s;
 }
-
-#btnFeel {
-  background: linear-gradient(45deg, #00ffff, #0066ff);
-  color: #000;
-}
-
-#btnPower {
-  background: linear-gradient(45deg, #ff0055, #ff8800);
-  color: #000;
-}
-
 button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 20px rgba(255,255,255,0.5);
+    background:#00f6ff;
+    color:black;
 }
+
+.hidden { display:none; }
 </style>
 </head>
 
 <body>
 
-<div id="container">
-  <h1>PoworBot 🤖</h1>
-  <p id="text">
-    أنا هنا لأفهمك…<br><br>
-    البعض يريد من يفهمه،<br>
-    والبعض يريد قوة تُشبهه.<br><br>
-    أيّهما أنت؟
-  </p>
+<div id="terminal">
+    <div id="output">Initializing PoworBot System...</div>
 
-  <div id="choices">
-    <button id="btnFeel">أريد من يفهمني</button>
-    <button id="btnPower">أريد أن أسيطر</button>
-  </div>
+    <div id="gender">
+        <button onclick="choose('man')">👨 أنا رجل</button>
+        <button onclick="choose('woman')">👩 أنا امرأة</button>
+    </div>
+
+    <div id="choices" class="hidden">
+        <button onclick="path('control')">أريد القوة والسيطرة</button>
+        <button onclick="path('emotion')">أريد الفهم والعمق</button>
+    </div>
 </div>
 
-<!-- الأصوات -->
-<audio id="voiceFemale" src="https://ia800108.us.archive.org/1/items/97dbbb-5d-ff-6a-4e-9a-81ff-1c-489bee-0a-5c/97dbbb5d-ff6a-4e9a-81ff-1c489bee0a5c.mp3"></audio>
-<audio id="voiceMale" src="https://ia801602.us.archive.org/5/items/cc73803c-72b3-46a3-a4a6-7c9de86d23c5/cc73803c-72b3-46a3-a4a6-7c9de86d23c5.mp3"></audio>
+<!-- أصوات -->
+<audio id="maleVoice" src="https://ia800108.us.archive.org/1/items/97dbbb-5d-ff-6a-4e-9a-81ff-1c-489bee-0a-5c/97dbbb5d-ff6a-4e9a-81ff-1c489bee0a5c.mp3"></audio>
+<audio id="femaleVoice" src="https://ia801602.us.archive.org/5/items/cc73803c-72b3-46a3-a4a6-7c9de86d23c5/cc73803c-72b3-46a3-a4a6-7c9de86d23c5.mp3"></audio>
 
 <script>
-const text = document.getElementById("text");
-const choices = document.getElementById("choices");
+let userGender = "";
+let botVoice = "";
 
-// الزر "أريد من يفهمني"
-document.getElementById("btnFeel").onclick = () => {
-  const female = document.getElementById("voiceFemale");
-  female.currentTime = 0;
-  female.play();
+const output = document.getElementById("output");
 
-  text.innerHTML = `
-  اختيارك يدل على وعي عميق…<br><br>
-  لست بحاجة للقوة الآن،<br>
-  بل لمن يفهمك دون أن تتكلم.<br><br>
-  أنا هنا معك… خطوة بخطوة.
-  `;
-  choices.style.display = "none";
-};
+function speak(text){
+    output.innerText = text;
+    document.getElementById(botVoice).play();
+}
 
-// الزر "أريد أن أسيطر"
-document.getElementById("btnPower").onclick = () => {
-  const male = document.getElementById("voiceMale");
-  male.currentTime = 0;
-  male.play();
+setTimeout(()=>{
+    speak("مرحبًا بك في نظام PoworBot.\nاختر هويتك.");
+},1500);
 
-  text.innerHTML = `
-  القوة لا تُمنح… بل تُفعّل.<br><br>
-  اختيارك يعني أنك مستعد للسيطرة،<br>
-  لا للانتظار.<br><br>
-  PoworBot بدأ العمل.
-  `;
-  choices.style.display = "none";
-};
+function choose(g){
+    userGender = g;
+
+    if(g === "man") botVoice = "femaleVoice";
+    else botVoice = "maleVoice";
+
+    document.getElementById("gender").classList.add("hidden");
+
+    speak("تم التعرف عليك.\nالآن اختر مسارك.");
+
+    setTimeout(()=>{
+        document.getElementById("choices").classList.remove("hidden");
+    },3000);
+}
+
+function path(type){
+    document.getElementById("choices").classList.add("hidden");
+
+    if(type === "control"){
+        speak("أرى فيك رغبة في السيطرة.\nسأجعلك أقوى من الآخرين.");
+    }
+    else{
+        speak("أنت تبحث عن العمق.\nسأكشف لك أسرار النظام.");
+    }
+
+    setTimeout(()=>{
+        output.innerText += "\n\nPoworBot سيستمر في التطور...";
+    },4000);
+}
 </script>
 
 </body>
