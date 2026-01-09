@@ -2,15 +2,15 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>PoworBot Test</title>
+<title>PoworBot 🤖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body {
   margin: 0;
-  background: black;
-  color: white;
   font-family: Arial, sans-serif;
+  background: radial-gradient(circle at top, #0a0a0a, #000000);
+  color: #00ffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,20 +18,58 @@ body {
   direction: rtl;
 }
 
-#box {
-  border: 2px solid cyan;
-  padding: 30px;
+#container {
   text-align: center;
+  max-width: 600px;
+  padding: 30px;
+  border-radius: 18px;
+  background: rgba(0,0,0,0.7);
+  border: 1px solid rgba(0,255,255,0.25);
+  box-shadow: 0 0 50px rgba(0,255,255,0.2);
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 18px;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+button {
+  padding: 15px 28px;
+  margin: 10px;
+  font-size: 16px;
+  border-radius: 40px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#btnFeel {
+  background: linear-gradient(45deg, #00ffff, #0066ff);
+  color: #000;
+}
+
+#btnPower {
+  background: linear-gradient(45deg, #ff0055, #ff8800);
+  color: #000;
+}
+
+button:hover {
+  transform: scale(1.1);
 }
 </style>
 </head>
 
 <body>
 
-<div id="box">
-  <h1>🤖 PoworBot</h1>
-  <p>إذا رأيتِ هذا النص، فالموقع يعمل بشكل صحيح.</p>
-</div>
-
-</body>
-</html>
+<div id="container">
+  <h1>PoworBot 🤖</h1>
+  <p id="text">
+    أنا هنا لأفهمك…<br><br>
+    البعض يريد من يفهمه،<br>
+    والبعض يريد قوة تُشبهه.<br><br>
