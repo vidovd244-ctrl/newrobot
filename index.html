@@ -11,8 +11,8 @@ body{
     color:#00ffe7;
     font-family: Arial;
     overflow:hidden;
-    transition: background 1s;
     text-align:center;
+    transition: background 1s;
 }
 #bg{
     position:fixed;
@@ -59,7 +59,7 @@ h1{
     padding:10px;
     cursor:pointer;
     box-shadow:0 0 20px #00ffe7;
-    transition: transform 0.3s, box-shadow 0.3s, transform 0.5s;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 .pod:hover{
     transform: translateY(-10px);
@@ -111,7 +111,7 @@ const bg = document.getElementById("bg");
 const robotPods = document.getElementById("robotPods");
 const startBtn = document.getElementById("startBtn");
 
-// الأصوات لكل حدث
+// الأصوات
 const souls = {
     welcome:{ male:"https://ia902905.us.archive.org/20/items/ttsmp3.com_voicetext_2026-1-9_8-24-46_202601/ttsMP3.com_VoiceText_2026-1-9_8-24-46.mp3", female:"https://archive.org/details/ttsmp3.com_voicetext_2026-1-9_8-31-31_202601"},
     control:{ male:"https://ia601307.us.archive.org/17/items/ttsmp3.com_voicetext_2026-1-9_8-41-25_202601/ttsMP3.com_VoiceText_2026-1-9_8-41-25.mp3", female:"https://ia601307.us.archive.org/11/items/ttsmp3.com_voicetext_2026-1-9_8-46-0_202601/ttsMP3.com_VoiceText_2026-1-9_8-46-0.mp3"},
@@ -119,10 +119,10 @@ const souls = {
     like1:{ male:"https://ia601703.us.archive.org/27/items/1e-5c-18cc-3c-46-42d-1-98ec-069e-8a-53e-5b-0_20260110/1e5c18cc-3c46-42d1-98ec-069e8a53e5b0.mp3", female:"https://ia903102.us.archive.org/23/items/a7b7861e-a627-4a39-be55-5e734753e9b6_202601/a7b7861e-a627-4a39-be55-5e734753e9b6.mp3"},
     like2:{ male:"https://ia903106.us.archive.org/0/items/07f-99e-96-7562-488a-b-81f-e-2e-213dc-4480_202601/07f99e96-7562-488a-b81f-e2e213dc4480.mp3", female:"https://ia600806.us.archive.org/26/items/31ec-5b-5e-ee-5f-4d-53-a-249-637e-67ab-7c-89_202601/31ec5b5e-ee5f-4d53-a249-637e67ab7c89.mp3"},
     like3:{ male:"https://ia601307.us.archive.org/17/items/ttsmp3.com_voicetext_2026-1-9_8-46-0_202601/ttsMP3.com_VoiceText_2026-1-9_8-46-0.mp3", female:"https://ia601307.us.archive.org/11/items/ttsmp3.com_voicetext_2026-1-9_8-46-0_202601/ttsMP3.com_VoiceText_2026-1-9_8-46-0.mp3"},
-    sell:{ male:"https://ia600908.us.archive.org/21/items/ttsmp3.com_voicetext_2026-1-9_8-49-22_202601/ttsMP3.com_VoiceText_2026-1-9_8-49-22.mp3", female:"https://ia600307.us.archive.org/34/items/4b-6e-249b-944d-4a-63-bbac-21dfc-941f-412_202601/4b6e249b-944d-4a63-bbac-21dfc941f412.mp3"}
+    sell:{ male:"https://ia600908.us.archive.org/21/items/ttsmp3.com_voicetext_2026-1-9_8-49-22_202601/ttsMP3.com_VoiceText_2026-1-9_8-49-22.mp3", female:"https://ia600307.us.archive.org/34/items/4b-6e-249b-944d-4a-63-bbac-21dfc-941f-412_202601/4b6e249b-944d-4a63-bbac-21dfc-941f-412.mp3"}
 };
 
-// نصوص الأحداث
+// نصوص لكل حدث
 const soulTexts = {
     welcome: "مرحبًا بك في باوربانك، عالم لا يدخله الأمن، يبحث عن القوة والترتيب…",
     control: "هل تريد أن تستكشف القوة في هذا العالم؟",
@@ -133,7 +133,7 @@ const soulTexts = {
     sell: "اختر الروبوت الذي يناسبك"
 };
 
-// تأثيرات
+// تأثيرات لكل حدث
 const soulEffects = {
     welcome: { color:"#00ffe7", bg:"radial-gradient(circle at top,#001111,#000000)", shadow:"0 0 40px #00ffe7" },
     control: { color:"#ff4444", bg:"radial-gradient(circle at top,#110000,#000000)", shadow:"0 0 40px #ff4444" },
@@ -144,29 +144,23 @@ const soulEffects = {
     sell: { color:"#ff8800", bg:"radial-gradient(circle at top,#221100,#000000)", shadow:"0 0 40px #ff8800" }
 };
 
-// تتبع إذا تم عرض النص للروبوتات مرة واحدة
-let playedText = {
-    like1:false,
-    like2:false,
-    like3:false
-};
+// تتبع النصوص مرة واحدة
+let playedText = {like1:false, like2:false, like3:false};
 
-// الكبسولات الروبوتية
+// الروبوتات
 const robots = [
     {name:"Robo-X", price:"100 Credits", img:"PUT_IMAGE_URL_HERE", sound:"like1"},
     {name:"Mecha-Y", price:"200 Credits", img:"PUT_IMAGE_URL_HERE", sound:"like2"},
     {name:"Auto-Z", price:"300 Credits", img:"PUT_IMAGE_URL_HERE", sound:"like3"}
 ];
 
-// تشغيل حدث صوتي مع إيقاف أي صوت جاري
+// تشغيل صوت مع إيقاف أي صوت جاري
 function playSoul(event, showText=true){
-    audio.pause();           // إيقاف الصوت الحالي
-    audio.currentTime = 0;   // إعادة من البداية
-    audio.src = souls[event][gender];
+    audio.pause();
+    audio.currentTime=0;
+    audio.src=souls[event][gender];
     audio.play();
-    if(showText){
-        screen.innerHTML = soulTexts[event];
-    }
+    if(showText) screen.innerHTML=soulTexts[event];
     const effect = soulEffects[event];
     screen.style.boxShadow = effect.shadow;
     title.style.color = effect.color;
@@ -174,43 +168,42 @@ function playSoul(event, showText=true){
     if(event==="sell") showRobotPods();
 }
 
-// عرض الكبسولات وتفعيل أصوات مختلفة لكل روبوت عند click
+// عرض الكبسولات
 function showRobotPods(){
-    robotPods.innerHTML = "";
+    robotPods.innerHTML="";
     robotPods.style.display="flex";
-    robots.forEach((r)=>{
+    robots.forEach(r=>{
         const pod=document.createElement("div");
         pod.className="pod";
         pod.innerHTML=`<img src="${r.img}"><div>${r.name}</div><div>${r.price}</div>`;
         pod.onclick=()=>{
-            if(!playedText[r.sound]){
-                playSoul(r.sound,true);
-                playedText[r.sound]=true;
-            }else{
-                playSoul(r.sound,false);
-            }
-            // تأثير بصري عند click
-            pod.style.transform = "scale(1.1)";
-            setTimeout(()=>{ pod.style.transform = "scale(1)"; },300);
+            // نص مرة واحدة فقط
+            playSoul(r.sound,!playedText[r.sound]);
+            playedText[r.sound]=true;
+            // تأثير بصري
+            pod.style.transform="scale(1.1)";
+            setTimeout(()=>{pod.style.transform="scale(1)";},300);
         };
         robotPods.appendChild(pod);
     });
 }
 
-// عند الضغط على زر البداية
-startBtn.onclick = ()=>{
-    startBtn.style.display = "none"; // إخفاء الزر
-    playSoul("welcome");
-    audio.onended = ()=>{
-        playSoul("control");
-        audio.onended = ()=>{
-            playSoul("mystery");
-            audio.onended = ()=>{
-                playSoul("sell"); // بعد mystery تظهر الكبسولات
-            }
+// زر البداية
+startBtn.onclick=()=>{
+    startBtn.style.display="none";
+    // سلسلة الأصوات الأساسية مرة واحدة
+    const steps=["welcome","control","mystery","sell"];
+    let i=0;
+    function nextStep(){
+        if(i<steps.length){
+            playSoul(steps[i]);
+            i++;
+            audio.onended=nextStep;
         }
     }
+    nextStep();
 };
+
 </script>
 </body>
 </html>
