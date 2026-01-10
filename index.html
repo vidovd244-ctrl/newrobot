@@ -86,14 +86,14 @@ h1{
 <audio id="audio"></audio>
 
 <script>
-let gender = "male"; // يمكن تعديل تلقائيًا لاحقًا
+let gender = "male"; // يمكن تغييره لاحقًا
 const screen = document.getElementById("screen");
 const title = document.getElementById("title");
 const audio = document.getElementById("audio");
 const bg = document.getElementById("bg");
 const robotPods = document.getElementById("robotPods");
 
-// الأصوات حسب الحدث
+// الأصوات حسب كل حدث
 const souls = {
     welcome:{ male:"https://ia902905.us.archive.org/20/items/ttsmp3.com_voicetext_2026-1-9_8-24-46_202601/ttsMP3.com_VoiceText_2026-1-9_8-24-46.mp3", female:"https://archive.org/details/ttsmp3.com_voicetext_2026-1-9_8-31-31_202601"},
     control:{ male:"https://ia601307.us.archive.org/17/items/ttsmp3.com_voicetext_2026-1-9_8-41-25_202601/ttsMP3.com_VoiceText_2026-1-9_8-41-25.mp3", female:"https://ia601307.us.archive.org/11/items/ttsmp3.com_voicetext_2026-1-9_8-46-0_202601/ttsMP3.com_VoiceText_2026-1-9_8-46-0.mp3"},
@@ -103,17 +103,17 @@ const souls = {
     pay:{ male:"https://ia903106.us.archive.org/0/items/07f-99e-96-7562-488a-b-81f-e-2e-213dc-4480_202601/07f99e96-7562-488a-b81f-e2e213dc4480.mp3", female:"https://ia600806.us.archive.org/26/items/31ec-5b-5e-ee-5f-4d-53-a-249-637e-67ab-7c-89_202601/31ec5b5e-ee5f-4d53-a249-637e67ab7c89.mp3"}
 };
 
-// نصوص
+// نصوص الأحداث الملحمية
 const soulTexts = {
-    welcome:"مرحبًا بك… لقد دخلت عالم PoworBot",
-    control:"هل تحب أن أسيطر على تجربتك؟",
-    mystery:"هناك شيء غير واضح سيغير مستقبلك…",
-    like:"أنا أشعر بك… تفاعل مع الروبوت!",
-    sell:"أنا أملك ما تبحث عنه… اختر روبوتك",
-    pay:"حان وقت الدفع…"
+    welcome:"مرحبًا بك في باوربانك، عالم لا يدخله الأمن، يبحث عن القوة والترتيب…",
+    control:"هل تريد أن تستكشف القوة في هذا العالم؟",
+    mystery:"هناك أسرار ستكشف لك مستقبل الروبوتات…",
+    like:"أشعر بتفاعلك مع الروبوت…",
+    sell:"هذه كبسولات الروبوتات، اختر الروبوت الذي يناسبك",
+    pay:"حان وقت الدفع، اختر وسيلة الدفع…"
 };
 
-// تأثيرات
+// تأثيرات لكل حدث
 const soulEffects = {
     welcome: { color:"#00ffe7", bg:"radial-gradient(circle at top,#001111,#000000)", shadow:"0 0 40px #00ffe7" },
     control: { color:"#ff4444", bg:"radial-gradient(circle at top,#110000,#000000)", shadow:"0 0 40px #ff4444" },
@@ -123,14 +123,14 @@ const soulEffects = {
     pay: { color:"#00ff88", bg:"radial-gradient(circle at top,#001122,#000000)", shadow:"0 0 40px #00ff88" }
 };
 
-// الروبوتات
+// الروبوتات (ضع روابط صورك هنا)
 const robots = [
-    {name:"Robo-X", price:"100 Credits", img:"https://via.placeholder.com/100?text=Robo-X"},
-    {name:"Mecha-Y", price:"200 Credits", img:"https://via.placeholder.com/100?text=Mecha-Y"},
-    {name:"Auto-Z", price:"300 Credits", img:"https://via.placeholder.com/100?text=Auto-Z"}
+    {name:"Robo-X", price:"100 Credits", img:"PUT_YOUR_IMAGE_URL_HERE"},
+    {name:"Mecha-Y", price:"200 Credits", img:"PUT_YOUR_IMAGE_URL_HERE"},
+    {name:"Auto-Z", price:"300 Credits", img:"PUT_YOUR_IMAGE_URL_HERE"}
 ];
 
-// الوظائف
+// تشغيل صوت حدث معين
 function playSoul(event){
     audio.src = souls[event][gender];
     audio.play();
@@ -142,7 +142,7 @@ function playSoul(event){
     if(event==="sell") showRobotPods();
 }
 
-// عرض الروبوتات
+// عرض الكبسولات
 function showRobotPods(){
     robotPods.innerHTML = "";
     robotPods.style.display="flex";
@@ -150,19 +150,18 @@ function showRobotPods(){
         const pod=document.createElement("div");
         pod.className="pod";
         pod.innerHTML=`<img src="${r.img}"><div>${r.name}</div><div>${r.price}</div>`;
-        // عند hover يرد PoworBot
-        pod.onmouseenter=()=>playSoul("like");
-        pod.onclick=()=>playSoul("sell");
+        pod.onmouseenter=()=>playSoul("like"); // hover
+        pod.onclick=()=>playSoul("sell"); // اختيار
         robotPods.appendChild(pod);
     });
 }
 
-// بدء التفاعل التلقائي عند الدخول
+// بدء التجربة تلقائيًا
 window.onload = ()=>{
     playSoul("welcome");
-    setTimeout(()=>playSoul("control"), 3000);
-    setTimeout(()=>playSoul("mystery"), 7000);
-    setTimeout(()=>playSoul("sell"), 11000);
+    setTimeout(()=>playSoul("control"), 4000);
+    setTimeout(()=>playSoul("mystery"), 9000);
+    setTimeout(()=>playSoul("sell"), 13000);
 };
 </script>
 </body>
