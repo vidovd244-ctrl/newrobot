@@ -127,13 +127,13 @@ const souls = {
 
 // نصوص الأحداث
 const soulTexts = {
-    welcome:"مرحبًا بك في باوربانك، عالم لا يدخله الأمن، يبحث عن القوة والترتيب…",
-    control:"هل تريد أن تستكشف القوة في هذا العالم؟",
-    mystery:"هناك أسرار ستكشف لك مستقبل الروبوتات…",
-    like1:"أنا Robo-X، أقوى روبوت هنا!",
-    like2:"أنا Mecha-Y، سهل التحكم ومليء بالقدرات!",
-    like3:"أنا Auto-Z، اختيارك سيكون مستقبلك!",
-    sell:"اختر الروبوت الذي يناسبك"
+    welcome: "مرحبًا بك في باوربانك، عالم لا يدخله الأمن، يبحث عن القوة والترتيب…",
+    control: "هل تريد أن تستكشف القوة في هذا العالم؟",
+    mystery: "هناك أسرار ستكشف لك مستقبل الروبوتات…",
+    like1: "أنا Robo-X، أقوى روبوت هنا!",
+    like2: "أنا Mecha-Y، سهل التحكم ومليء بالقدرات!",
+    like3: "أنا Auto-Z، اختيارك سيكون مستقبلك!",
+    sell: "اختر الروبوت الذي يناسبك"
 };
 
 // تأثيرات
@@ -147,14 +147,14 @@ const soulEffects = {
     sell: { color:"#ff8800", bg:"radial-gradient(circle at top,#221100,#000000)", shadow:"0 0 40px #ff8800" }
 };
 
-// الكبسولات الروبوتية مع أصوات مختلفة لكل كبسولة
+// الكبسولات الروبوتية مع hover أصوات مختلفة لكل روبوت
 const robots = [
     {name:"Robo-X", price:"100 Credits", img:"PUT_IMAGE_URL_HERE", sound:"like1"},
     {name:"Mecha-Y", price:"200 Credits", img:"PUT_IMAGE_URL_HERE", sound:"like2"},
     {name:"Auto-Z", price:"300 Credits", img:"PUT_IMAGE_URL_HERE", sound:"like3"}
 ];
 
-// تشغيل صوت حدث معين
+// تشغيل حدث صوتي
 function playSoul(event){
     audio.src = souls[event][gender];
     audio.play();
@@ -182,10 +182,16 @@ function showRobotPods(){
 
 // بدء التجربة تلقائيًا عند الدخول
 window.onload = ()=>{
-    playSoul("welcome");
-    setTimeout(()=>playSoul("control"), 4000);
-    setTimeout(()=>playSoul("mystery"), 9000);
-    setTimeout(()=>playSoul("sell"), 14000);
+    playSoul("welcome"); // الترحيب الأول الملحمي
+    audio.onended = ()=>{
+        playSoul("control");
+        audio.onended = ()=>{
+            playSoul("mystery");
+            audio.onended = ()=>{
+                playSoul("sell"); // بعد mystery تظهر الكبسولات
+            }
+        }
+    }
 };
 </script>
 </body>
