@@ -48,11 +48,11 @@ button{
     background:black;
     border:2px solid #00ffe7;
     color:#00ffe7;
-    padding:15px 30px;
-    font-size:18px;
+    padding:12px 25px;
+    font-size:16px;
     border-radius:30px;
     cursor:pointer;
-    margin:10px;
+    margin:5px;
     transition:0.3s;
 }
 
@@ -60,6 +60,10 @@ button:hover{
     background:#00ffe7;
     color:black;
     box-shadow:0 0 20px #00ffe7;
+}
+
+#controls{
+    margin-top:20px;
 }
 </style>
 </head>
@@ -74,6 +78,11 @@ button:hover{
 
 <button onclick="setGender('male')">أنا رجل</button>
 <button onclick="setGender('female')">أنا امرأة</button>
+
+<div id="controls" style="display:none;">
+    <button onclick="repeatStep()">🔁 إعادة الصوت</button>
+    <button onclick="nextStep()">⏭ التالي</button>
+</div>
 </div>
 
 <audio id="audio"></audio>
@@ -82,6 +91,7 @@ button:hover{
 let gender = null;
 const screen = document.getElementById("screen");
 const audio = document.getElementById("audio");
+const controls = document.getElementById("controls");
 
 const voices = {
     welcome:{ 
@@ -152,21 +162,42 @@ const steps = [
 
 let currentStep = 0;
 
+// تشغيل الصوت للخطوة الحالية
 function playStep(){
     if(currentStep >= steps.length) return;
+    controls.style.display = "block"; // إظهار الأزرار بعد اختيار الجنس
     const step = steps[currentStep];
     audio.src = voices[step.voice][gender];
     audio.play();
     screen.innerHTML = step.text;
-    currentStep++;
-    // انتقل للخطوة التالية بعد طول الصوت + نصف ثانية
+
+    // عند انتهاء الصوت، ينتقل تلقائيًا للخطوة التالية
     audio.onended = () => {
-        setTimeout(playStep, 500);
+        if(currentStep < steps.length -1){
+            currentStep++;
+            setTimeout(playStep, 500);
+        }
     };
 }
 
+// إعادة تشغيل الصوت الحالي
+function repeatStep(){
+    if(currentStep >= steps.length) return;
+    const step = steps[currentStep];
+    audio.src = voices[step.voice][gender];
+    audio.play();
+}
+
+// تخطي الصوت والانتقال للخطوة التالية فورًا
+function nextStep(){
+    if(currentStep < steps.length -1){
+        currentStep++;
+        playStep();
+    }
+}
+
 function setGender(g){
-    gender=g;
+    gender = g;
     playStep(); // يبدأ الخطوة الأولى مباشرة
 }
 </script>
