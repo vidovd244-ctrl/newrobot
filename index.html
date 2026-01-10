@@ -12,6 +12,7 @@ body{
     font-family: Arial;
     overflow:hidden;
     transition: background 1s;
+    text-align:center;
 }
 #bg{
     position:fixed;
@@ -22,7 +23,6 @@ body{
     transition: background 1s;
 }
 #bot{
-    text-align:center;
     margin-top:50px;
 }
 h1{
@@ -71,6 +71,22 @@ h1{
     object-fit:contain;
     margin-bottom:10px;
 }
+#startBtn{
+    padding:20px 40px;
+    font-size:24px;
+    border-radius:20px;
+    background:#00ffe7;
+    color:black;
+    border:none;
+    cursor:pointer;
+    margin-top:50px;
+    transition:0.3s;
+}
+#startBtn:hover{
+    background:black;
+    color:#00ffe7;
+    box-shadow:0 0 20px #00ffe7;
+}
 </style>
 </head>
 <body>
@@ -81,6 +97,7 @@ h1{
 <h1 id="title">POWORBOT 🤖</h1>
 <div id="screen"></div>
 <div id="robotPods"></div>
+<button id="startBtn">ابدأ التجربة</button>
 </div>
 
 <audio id="audio"></audio>
@@ -92,6 +109,7 @@ const title = document.getElementById("title");
 const audio = document.getElementById("audio");
 const bg = document.getElementById("bg");
 const robotPods = document.getElementById("robotPods");
+const startBtn = document.getElementById("startBtn");
 
 // الأصوات لكل حدث
 const souls = {
@@ -180,9 +198,10 @@ function showRobotPods(){
     });
 }
 
-// بدء التجربة تلقائيًا عند الدخول
-window.onload = ()=>{
-    playSoul("welcome"); // الترحيب الأول الملحمي
+// عند الضغط على زر البداية
+startBtn.onclick = ()=>{
+    startBtn.style.display = "none"; // إخفاء الزر
+    playSoul("welcome"); // الترحيب الأول
     audio.onended = ()=>{
         playSoul("control");
         audio.onended = ()=>{
