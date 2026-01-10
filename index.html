@@ -103,7 +103,7 @@ h1{
 <audio id="mainAudio"></audio>
 
 <script>
-let gender = "male"; // يمكن تغييره لاحقًا
+let gender = "male"; 
 const screen = document.getElementById("screen");
 const title = document.getElementById("title");
 const mainAudio = document.getElementById("mainAudio");
@@ -166,13 +166,18 @@ function showRobotPods(){
         pod.onclick = ()=>{
             // ايقاف الصوت الرئيسي فورًا
             mainAudio.pause();
+            
             // إنشاء audio مستقل لكل كبسولة
             const audioPod = new Audio(r.sound);
             audioPod.play();
+            
+            // عرض النص الملحمي مرة واحدة فقط لكل روبوت
             if(!playedText[r.name]){
                 screen.innerHTML=`لقد اخترت ${r.name} - ${r.price}`;
-                playedText[r.name]=true;
+                playedText[r.name]=true; 
             }
+            
+            // تأثير بصري عند click
             pod.style.transform="scale(1.1)";
             setTimeout(()=>{pod.style.transform="scale(1)";},300);
         };
