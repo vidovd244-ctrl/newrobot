@@ -47,28 +47,6 @@ h1{
     font-size:22px;
     transition: all 0.5s;
 }
-
-button{
-    background:black;
-    border:2px solid #00ffe7;
-    color:#00ffe7;
-    padding:12px 25px;
-    font-size:16px;
-    border-radius:30px;
-    cursor:pointer;
-    margin:5px;
-    transition:0.3s;
-}
-
-button:hover{
-    background:#00ffe7;
-    color:black;
-    box-shadow:0 0 20px #00ffe7;
-}
-
-#controls{
-    margin-top:20px;
-}
 </style>
 </head>
 
@@ -79,78 +57,54 @@ button:hover{
 <div id="bot">
 <h1 id="title">POWORBOT 🤖</h1>
 <div id="screen">اختر هويتك…</div>
-
-<button onclick="setGender('male')">أنا رجل</button>
-<button onclick="setGender('female')">أنا امرأة</button>
-
-<div id="controls" style="display:none;">
-    <button onclick="repeatVoice()">🔁 إعادة الصوت</button>
-    <button onclick="userNextAction()">⏭ التالي</button>
-</div>
 </div>
 
 <audio id="audio"></audio>
 
 <script>
 let gender = null;
-let currentSoul = null;  // الروح الحالية
+let currentSoulIndex = 0;
 const screen = document.getElementById("screen");
 const title = document.getElementById("title");
 const audio = document.getElementById("audio");
-const controls = document.getElementById("controls");
 const bg = document.getElementById("bg");
 
 // الروابط الصوتية لكل روح
 const souls = {
-    welcome: { male:"https://ia902905.us.archive.org/20/items/ttsmp3.com_voicetext_2026-1-9_8-24-46_202601/ttsMP3.com_VoiceText_2026-1-9_8-24-46.mp3", female:"https://archive.org/details/ttsmp3.com_voicetext_2026-1-9_8-31-31_202601" },
-    intro: { male:"https://archive.org/details/intro_male.mp3", female:"https://archive.org/details/intro_female.mp3" },
-    control: { male:"https://ia601709.us.archive.org/34/items/ttsmp3.com_voicetext_2026-1-9_8-36-29_20260110/ttsMP3.com_VoiceText_2026-1-9_8-36-29.mp3", female:"https://ia600203.us.archive.org/35/items/ttsmp3.com_voicetext_2026-1-9_8-38-13_20260110/ttsMP3.com_VoiceText_2026-1-9_8-38-13.mp3" },
-    mystery: { male:"https://ia600908.us.archive.org/21/items/ttsmp3.com_voicetext_2026-1-9_8-49-22_202601/ttsMP3.com_VoiceText_2026-1-9_8-49-22.mp3", female:"https://ia600307.us.archive.org/34/items/4b-6e-249b-944d-4a-63-bbac-21dfc-941f-412_202601/4b6e249b-944d-4a63-bbac-21dfc941f412.mp3" },
-    like: { male:"https://ia601307.us.archive.org/17/items/ttsmp3.com_voicetext_2026-1-9_8-41-25_202601/ttsMP3.com_VoiceText_2026-1-9_8-41-25.mp3", female:"https://ia601307.us.archive.org/11/items/ttsmp3.com_voicetext_2026-1-9_8-46-0_202601/ttsMP3.com_VoiceText_2026-1-9_8-46-0.mp3" },
-    curiosity: { male:"https://archive.org/details/curiosity_male.mp3", female:"https://archive.org/details/curiosity_female.mp3" },
-    sell: { male:"https://ia903106.us.archive.org/0/items/07f-99e-96-7562-488a-b-81f-e-2e-213dc-4480_202601/07f99e96-7562-488a-b81f-e2e213dc4480.mp3", female:"https://ia600806.us.archive.org/26/items/31ec-5b-5e-ee-5f-4d-53-a-249-637e-67ab-7c-89_202601/31ec5b5e-ee5f-4d53-a249-637e67ab7c89.mp3" },
-    buy: { male:"https://archive.org/details/buy_male.mp3", female:"https://archive.org/details/buy_female.mp3" },
-    pay: { male:"https://ia601703.us.archive.org/27/items/1e-5c-18cc-3c-46-42d-1-98ec-069e-8a-53e-5b-0_20260110/1e5c18cc-3c46-42d1-98ec-069e8a53e5b0.mp3", female:"https://ia903102.us.archive.org/23/items/a7b7861e-a627-4a39-be55-5e734753e9b6_202601/a7b7861e-a627-4a39-be55-5e734753e9b6.mp3" },
-    success: { male:"https://archive.org/details/success_male.mp3", female:"https://archive.org/details/success_female.mp3" },
-    warning: { male:"https://archive.org/details/warning_male.mp3", female:"https://archive.org/details/warning_female.mp3" },
-    goodbye: { male:"https://archive.org/details/goodbye_male.mp3", female:"https://archive.org/details/goodbye_female.mp3" }
+    welcome:{ male:"https://ia902905.us.archive.org/20/items/ttsmp3.com_voicetext_2026-1-9_8-24-46_202601/ttsMP3.com_VoiceText_2026-1-9_8-24-46.mp3", female:"https://archive.org/details/ttsmp3.com_voicetext_2026-1-9_8-31-31_202601"},
+    control:{ male:"https://ia601307.us.archive.org/17/items/ttsmp3.com_voicetext_2026-1-9_8-41-25_202601/ttsMP3.com_VoiceText_2026-1-9_8-41-25.mp3", female:"https://ia601307.us.archive.org/11/items/ttsmp3.com_voicetext_2026-1-9_8-46-0_202601/ttsMP3.com_VoiceText_2026-1-9_8-46-0.mp3"},
+    mystery:{ male:"https://ia601709.us.archive.org/34/items/ttsmp3.com_voicetext_2026-1-9_8-36-29_20260110/ttsMP3.com_VoiceText_2026-1-9_8-36-29.mp3", female:"https://ia600203.us.archive.org/35/items/ttsmp3.com_voicetext_2026-1-9_8-38-13_20260110/ttsMP3.com_VoiceText_2026-1-9_8-38-13.mp3"},
+    like:{ male:"https://ia600908.us.archive.org/21/items/ttsmp3.com_voicetext_2026-1-9_8-49-22_202601/ttsMP3.com_VoiceText_2026-1-9_8-49-22.mp3", female:"https://ia600307.us.archive.org/34/items/4b-6e-249b-944d-4a-63-bbac-21dfc-941f-412_202601/4b6e249b-944d-4a63-bbac-21dfc941f412.mp3"},
+    sell:{ male:"https://ia601703.us.archive.org/27/items/1e-5c-18cc-3c-46-42d-1-98ec-069e-8a-53e-5b-0_20260110/1e5c18cc-3c46-42d1-98ec-069e8a53e5b0.mp3", female:"https://ia903102.us.archive.org/23/items/a7b7861e-a627-4a39-be55-5e734753e9b6_202601/a7b7861e-a627-4a39-be55-5e734753e9b6.mp3"},
+    pay:{ male:"https://ia903106.us.archive.org/0/items/07f-99e-96-7562-488a-b-81f-e-2e-213dc-4480_202601/07f99e96-7562-488a-b81f-e2e213dc4480.mp3", female:"https://ia600806.us.archive.org/26/items/31ec-5b-5e-ee-5f-4d-53-a-249-637e-67ab-7c-89_202601/31ec5b5e-ee5f-4d53-a249-637e67ab7c89.mp3"}
 };
 
 // نصوص لكل روح
 const soulTexts = {
     welcome:"مرحبًا بك… لقد دخلت عالم PoworBot",
-    intro:"أنا PoworBot، مساعدك المستقبلي",
     control:"هل تحب أن أسيطر على تجربتك؟",
     mystery:"هناك شيء غير واضح سيغير مستقبلك…",
     like:"أنا أشعر بك… هل تريد الاستمرار؟",
-    curiosity:"هل ترغب في اكتشاف المزيد؟",
     sell:"أنا أملك ما تبحث عنه…",
-    buy:"هل ترغب بالحصول عليه الآن؟",
-    pay:"هل أنت مستعد للانتقال إلى المرحلة القادمة؟",
-    success:"تمت العملية بنجاح!",
-    warning:"انتبه، هناك شيء يحتاج انتباهك…",
-    goodbye:"إلى اللقاء… أراك قريبًا!"
+    pay:"هل أنت مستعد للانتقال إلى المرحلة القادمة؟"
 };
 
-// تأثيرات بصرية حسب الروح
+// تأثيرات بصرية لكل روح
 const soulEffects = {
     welcome: { color:"#00ffe7", bg:"radial-gradient(circle at top,#001111,#000000)", shadow:"0 0 40px #00ffe7" },
-    intro: { color:"#ff00ff", bg:"radial-gradient(circle at top,#110011,#000000)", shadow:"0 0 40px #ff00ff" },
     control: { color:"#ff4444", bg:"radial-gradient(circle at top,#110000,#000000)", shadow:"0 0 40px #ff4444" },
     mystery: { color:"#ffff00", bg:"radial-gradient(circle at top,#111100,#000000)", shadow:"0 0 40px #ffff00" },
     like: { color:"#00ff00", bg:"radial-gradient(circle at top,#001100,#000000)", shadow:"0 0 40px #00ff00" },
-    curiosity: { color:"#00ffff", bg:"radial-gradient(circle at top,#001111,#000000)", shadow:"0 0 40px #00ffff" },
     sell: { color:"#ff8800", bg:"radial-gradient(circle at top,#221100,#000000)", shadow:"0 0 40px #ff8800" },
-    buy: { color:"#ff44ff", bg:"radial-gradient(circle at top,#110022,#000000)", shadow:"0 0 40px #ff44ff" },
-    pay: { color:"#00ff88", bg:"radial-gradient(circle at top,#001122,#000000)", shadow:"0 0 40px #00ff88" },
-    success: { color:"#ffffff", bg:"radial-gradient(circle at top,#111111,#000000)", shadow:"0 0 50px #ffffff" },
-    warning: { color:"#ff0000", bg:"radial-gradient(circle at top,#220000,#000000)", shadow:"0 0 50px #ff0000" },
-    goodbye: { color:"#8888ff", bg:"radial-gradient(circle at top,#000022,#000000)", shadow:"0 0 50px #8888ff" }
+    pay: { color:"#00ff88", bg:"radial-gradient(circle at top,#001122,#000000)", shadow:"0 0 40px #00ff88" }
 };
 
-// تشغيل الصوت مع تغيير التأثيرات
-function playSoul(soul){
-    currentSoul = soul;
+// ترتيب الروح حسب التسلسل
+const soulOrder = ["welcome","control","mystery","like","sell","pay"];
+
+// اختيار الصوت الحالي وتشغيله
+function playCurrentSoul(){
+    const soul = soulOrder[currentSoulIndex];
     audio.src = souls[soul][gender];
     audio.play();
     screen.innerHTML = soulTexts[soul];
@@ -160,54 +114,27 @@ function playSoul(soul){
     bg.style.background = effect.bg;
 }
 
-// الإجراءات
+// عند اختيار الجنس يبدأ الروبوت تلقائيًا
 function setGender(g){
     gender = g;
-    controls.style.display = "block";
-    playSoul("welcome");
-}
-
-function repeatVoice(){
-    if(currentSoul) playSoul(currentSoul);
-}
-
-function userNextAction(){
-    if(!currentSoul) return;
-    // تحديد الروح التالية حسب الروح الحالية
-    const nextMap = {
-        welcome:"intro",
-        intro:"control",
-        control:"mystery",
-        mystery:"like",
-        like:"curiosity",
-        curiosity:"sell",
-        sell:"buy",
-        buy:"pay",
-        pay:"success",
-        success:"warning",
-        warning:"goodbye"
-    };
-    const nextSoul = nextMap[currentSoul] || "goodbye";
-    playSoul(nextSoul);
+    currentSoulIndex = 0;
+    playCurrentSoul();
 }
 
 // الانتقال التلقائي بعد انتهاء الصوت
 audio.onended = () => {
-    const autoNextMap = {
-        welcome:"intro",
-        intro:"control",
-        control:"mystery",
-        mystery:"like",
-        like:"curiosity",
-        curiosity:"sell",
-        sell:"buy",
-        buy:"pay",
-        pay:"success",
-        success:"warning",
-        warning:"goodbye"
-    };
-    if(currentSoul) playSoul(autoNextMap[currentSoul] || "goodbye");
+    currentSoulIndex++;
+    if(currentSoulIndex < soulOrder.length){
+        playCurrentSoul();
+    } else {
+        screen.innerHTML = "تمت جميع التفاعلات… شكراً لزيارتك!";
+        title.style.color = "#8888ff";
+        bg.style.background = "radial-gradient(circle at top,#000022,#000000)";
+    }
 };
+
+// بدء الاختيار عند تحميل الصفحة
+screen.innerHTML = 'اختر هويتك…<br><button onclick="setGender(\'male\')">أنا رجل</button> <button onclick="setGender(\'female\')">أنا امرأة</button>';
 </script>
 
 </body>
