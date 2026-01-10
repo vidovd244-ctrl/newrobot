@@ -150,7 +150,7 @@ const soulTexts = {
     mystery: "هناك أسرار ستكشف لك مستقبل الروبوتات…",
     like1: "أنا Robo-X، أقوى روبوت هنا!",
     like2: "أنا Mecha-Y، سهل التحكم ومليء بالقدرات!",
-    like3: "أنا Auto-Z، اختيارك سيكون مستقبلك!",
+    like3: "أنا Auto-Z، اختيارك سيكون مستقبلك!", // تُعرض مرة واحدة فقط
     sell: "اختر الروبوت الذي يناسبك"
 };
 
@@ -165,7 +165,14 @@ const soulEffects = {
     sell: { color:"#ff8800", bg:"radial-gradient(circle at top,#221100,#000000)", shadow:"0 0 40px #ff8800" }
 };
 
-// الكبسولات الروبوتية مع hover أصوات مختلفة لكل روبوت
+// تتبع إذا تم عرض النص للروبوتات مرة واحدة
+let playedText = {
+    like1:false,
+    like2:false,
+    like3:false
+};
+
+// الكبسولات الروبوتية
 const robots = [
     {name:"Robo-X", price:"100 Credits", img:"PUT_IMAGE_URL_HERE", sound:"like1"},
     {name:"Mecha-Y", price:"200 Credits", img:"PUT_IMAGE_URL_HERE", sound:"like2"},
@@ -173,10 +180,12 @@ const robots = [
 ];
 
 // تشغيل حدث صوتي
-function playSoul(event){
+function playSoul(event, showText=true){
     audio.src = souls[event][gender];
     audio.play();
-    screen.innerHTML = soulTexts[event];
+    if(showText){
+        screen.innerHTML = soulTexts[event];
+    }
     const effect = soulEffects[event];
     screen.style.boxShadow = effect.shadow;
     title.style.color = effect.color;
@@ -192,8 +201,16 @@ function showRobotPods(){
         const pod=document.createElement("div");
         pod.className="pod";
         pod.innerHTML=`<img src="${r.img}"><div>${r.name}</div><div>${r.price}</div>`;
-        pod.onmouseenter=()=>playSoul(r.sound); // hover مختلف لكل روبوت
-        pod.onclick=()=>playSoul("sell"); // click يستخدم صوت sell
+        pod.onmouseenter=()=>{
+            // عرض النص مرة واحدة فقط لكل روبوت
+            if(!playedText[r.sound]){
+                playSoul(r.sound,true);
+                playedText[r.sound]=true;
+            }else{
+                playSoul(r.sound,false); // الصوت فقط بدون النص
+            }
+        };
+        pod.onclick=()=>playSoul("sell");
         robotPods.appendChild(pod);
     });
 }
