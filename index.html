@@ -100,72 +100,59 @@ h1{
 <button id="startBtn">ابدأ التجربة</button>
 </div>
 
-<audio id="audio"></audio>
+<audio id="mainAudio"></audio>
 
 <script>
 let gender = "male"; // يمكن تغييره لاحقًا
 const screen = document.getElementById("screen");
 const title = document.getElementById("title");
-const audio = document.getElementById("audio");
+const mainAudio = document.getElementById("mainAudio");
 const bg = document.getElementById("bg");
 const robotPods = document.getElementById("robotPods");
 const startBtn = document.getElementById("startBtn");
 
-// الأصوات
+// الأصوات الرئيسية
 const souls = {
     welcome:{ male:"https://ia902905.us.archive.org/20/items/ttsmp3.com_voicetext_2026-1-9_8-24-46_202601/ttsMP3.com_VoiceText_2026-1-9_8-24-46.mp3", female:"https://archive.org/details/ttsmp3.com_voicetext_2026-1-9_8-31-31_202601"},
     control:{ male:"https://ia601307.us.archive.org/17/items/ttsmp3.com_voicetext_2026-1-9_8-41-25_202601/ttsMP3.com_VoiceText_2026-1-9_8-41-25.mp3", female:"https://ia601307.us.archive.org/11/items/ttsmp3.com_voicetext_2026-1-9_8-46-0_202601/ttsMP3.com_VoiceText_2026-1-9_8-46-0.mp3"},
-    mystery:{ male:"https://ia601709.us.archive.org/34/items/ttsmp3.com_voicetext_2026-1-9_8-36-29_20260110/ttsMP3.com_VoiceText_2026-1-9_8-36-29.mp3", female:"https://ia600203.us.archive.org/35/items/ttsmp3.com_voicetext_2026-1-9_8-38-13_20260110/ttsMP3.com_VoiceText_2026-1-9_8-38-13.mp3"},
-    like1:{ male:"https://ia601703.us.archive.org/27/items/1e-5c-18cc-3c-46-42d-1-98ec-069e-8a-53e-5b-0_20260110/1e5c18cc-3c46-42d1-98ec-069e8a53e5b0.mp3", female:"https://ia903102.us.archive.org/23/items/a7b7861e-a627-4a39-be55-5e734753e9b6_202601/a7b7861e-a627-4a39-be55-5e734753e9b6.mp3"},
-    like2:{ male:"https://ia903106.us.archive.org/0/items/07f-99e-96-7562-488a-b-81f-e-2e-213dc-4480_202601/07f99e96-7562-488a-b81f-e2e213dc4480.mp3", female:"https://ia600806.us.archive.org/26/items/31ec-5b-5e-ee-5f-4d-53-a-249-637e-67ab-7c-89_202601/31ec5b5e-ee5f-4d53-a249-637e67ab7c89.mp3"},
-    like3:{ male:"https://ia601307.us.archive.org/17/items/ttsmp3.com_voicetext_2026-1-9_8-46-0_202601/ttsMP3.com_VoiceText_2026-1-9_8-46-0.mp3", female:"https://ia601307.us.archive.org/11/items/ttsmp3.com_voicetext_2026-1-9_8-46-0_202601/ttsMP3.com_VoiceText_2026-1-9_8-46-0.mp3"},
-    sell:{ male:"https://ia600908.us.archive.org/21/items/ttsmp3.com_voicetext_2026-1-9_8-49-22_202601/ttsMP3.com_VoiceText_2026-1-9_8-49-22.mp3", female:"https://ia600307.us.archive.org/34/items/4b-6e-249b-944d-4a-63-bbac-21dfc-941f-412_202601/4b6e249b-944d-4a63-bbac-21dfc-941f-412.mp3"}
+    mystery:{ male:"https://ia601709.us.archive.org/34/items/ttsmp3.com_voicetext_2026-1-9_8-36-29_20260110/ttsMP3.com_VoiceText_2026-1-9_8-36-29.mp3", female:"https://ia600203.us.archive.org/35/items/ttsmp3.com_voicetext_2026-1-9_8-38-13_20260110/ttsMP3.com_VoiceText_2026-1-9_8-38-13.mp3"}
 };
 
 // نصوص لكل حدث
 const soulTexts = {
     welcome: "مرحبًا بك في باوربانك، عالم لا يدخله الأمن، يبحث عن القوة والترتيب…",
     control: "هل تريد أن تستكشف القوة في هذا العالم؟",
-    mystery: "هناك أسرار ستكشف لك مستقبل الروبوتات…",
-    like1: "أنا Robo-X، أقوى روبوت هنا!",
-    like2: "أنا Mecha-Y، سهل التحكم ومليء بالقدرات!",
-    like3: "أنا Auto-Z، اختيارك سيكون مستقبلك!",
-    sell: "اختر الروبوت الذي يناسبك"
+    mystery: "هناك أسرار ستكشف لك مستقبل الروبوتات…"
 };
 
 // تأثيرات لكل حدث
 const soulEffects = {
     welcome: { color:"#00ffe7", bg:"radial-gradient(circle at top,#001111,#000000)", shadow:"0 0 40px #00ffe7" },
     control: { color:"#ff4444", bg:"radial-gradient(circle at top,#110000,#000000)", shadow:"0 0 40px #ff4444" },
-    mystery: { color:"#ffff00", bg:"radial-gradient(circle at top,#111100,#000000)", shadow:"0 0 40px #ffff00" },
-    like1: { color:"#00ff00", bg:"radial-gradient(circle at top,#001100,#000000)", shadow:"0 0 40px #00ff00" },
-    like2: { color:"#00ff88", bg:"radial-gradient(circle at top,#001122,#000000)", shadow:"0 0 40px #00ff88" },
-    like3: { color:"#00ffaa", bg:"radial-gradient(circle at top,#001133,#000000)", shadow:"0 0 40px #00ffaa" },
-    sell: { color:"#ff8800", bg:"radial-gradient(circle at top,#221100,#000000)", shadow:"0 0 40px #ff8800" }
+    mystery: { color:"#ffff00", bg:"radial-gradient(circle at top,#111100,#000000)", shadow:"0 0 40px #ffff00" }
 };
 
-// تتبع النصوص مرة واحدة
-let playedText = {like1:false, like2:false, like3:false};
-
-// الروبوتات
+// الروبوتات للبيع
 const robots = [
-    {name:"Robo-X", price:"100 Credits", img:"PUT_IMAGE_URL_HERE", sound:"like1"},
-    {name:"Mecha-Y", price:"200 Credits", img:"PUT_IMAGE_URL_HERE", sound:"like2"},
-    {name:"Auto-Z", price:"300 Credits", img:"PUT_IMAGE_URL_HERE", sound:"like3"}
+    {name:"Robo-X", price:"100 Credits", img:"PUT_IMAGE_URL_HERE", sound:"https://ia601703.us.archive.org/27/items/1e-5c-18cc-3c-46-42d-1-98ec-069e-8a-53e-5b-0_20260110/1e5c18cc-3c46-42d1-98ec-069e8a53e5b0.mp3"},
+    {name:"Mecha-Y", price:"200 Credits", img:"PUT_IMAGE_URL_HERE", sound:"https://ia903106.us.archive.org/0/items/07f-99e-96-7562-488a-b-81f-e-2e-213dc-4480_202601/07f99e96-7562-488a-b81f-e2e213dc4480.mp3"},
+    {name:"Auto-Z", price:"300 Credits", img:"PUT_IMAGE_URL_HERE", sound:"https://ia600806.us.archive.org/26/items/31ec-5b-5e-ee-5f-4d-53-a-249-637e-67ab-7c-89_202601/31ec5b5e-ee5f-4d53-a249-637e67ab7c89.mp3"}
 ];
 
-// تشغيل صوت مع إيقاف أي صوت جاري
-function playSoul(event, showText=true){
-    audio.pause();
-    audio.currentTime=0;
-    audio.src=souls[event][gender];
-    audio.play();
-    if(showText) screen.innerHTML=soulTexts[event];
+// تتبع النصوص لكل كبسولة مرة واحدة
+let playedText = {};
+
+// تشغيل الصوت الرئيسي
+function playMain(event){
+    mainAudio.pause();
+    mainAudio.currentTime=0;
+    mainAudio.src=souls[event][gender];
+    mainAudio.play();
+    screen.innerHTML = soulTexts[event];
     const effect = soulEffects[event];
     screen.style.boxShadow = effect.shadow;
     title.style.color = effect.color;
     bg.style.background = effect.bg;
-    if(event==="sell") showRobotPods();
 }
 
 // عرض الكبسولات
@@ -173,14 +160,19 @@ function showRobotPods(){
     robotPods.innerHTML="";
     robotPods.style.display="flex";
     robots.forEach(r=>{
-        const pod=document.createElement("div");
+        const pod = document.createElement("div");
         pod.className="pod";
         pod.innerHTML=`<img src="${r.img}"><div>${r.name}</div><div>${r.price}</div>`;
-        pod.onclick=()=>{
-            // نص مرة واحدة فقط
-            playSoul(r.sound,!playedText[r.sound]);
-            playedText[r.sound]=true;
-            // تأثير بصري
+        pod.onclick = ()=>{
+            // ايقاف الصوت الرئيسي فورًا
+            mainAudio.pause();
+            // إنشاء audio مستقل لكل كبسولة
+            const audioPod = new Audio(r.sound);
+            audioPod.play();
+            if(!playedText[r.name]){
+                screen.innerHTML=`لقد اخترت ${r.name} - ${r.price}`;
+                playedText[r.name]=true;
+            }
             pod.style.transform="scale(1.1)";
             setTimeout(()=>{pod.style.transform="scale(1)";},300);
         };
@@ -189,21 +181,22 @@ function showRobotPods(){
 }
 
 // زر البداية
-startBtn.onclick=()=>{
+startBtn.onclick = ()=>{
     startBtn.style.display="none";
-    // سلسلة الأصوات الأساسية مرة واحدة
-    const steps=["welcome","control","mystery","sell"];
+    const steps = ["welcome","control","mystery"];
     let i=0;
     function nextStep(){
         if(i<steps.length){
-            playSoul(steps[i]);
+            playMain(steps[i]);
             i++;
-            audio.onended=nextStep;
+            mainAudio.onended = nextStep;
+        } else {
+            showRobotPods(); // بعد انتهاء الخطوات الرئيسية
         }
     }
     nextStep();
 };
-
 </script>
+
 </body>
 </html>
