@@ -2,9 +2,8 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>PoworBot الحي 🤖</title>
+<title>PoworBot التجريبي 🤖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 body{
     margin:0;
@@ -14,7 +13,6 @@ body{
     overflow:hidden;
     transition: background 1s;
 }
-
 #bg{
     position:fixed;
     width:100%;
@@ -23,22 +21,19 @@ body{
     z-index:-1;
     transition: background 1s;
 }
-
 #bot{
     text-align:center;
     margin-top:50px;
 }
-
 h1{
     font-size:42px;
     letter-spacing:4px;
     transition: color 0.8s;
 }
-
 #screen{
-    margin:40px auto;
+    margin:20px auto;
     width:80%;
-    max-width:500px;
+    max-width:600px;
     padding:30px;
     border:2px solid #00ffe7;
     border-radius:20px;
@@ -47,9 +42,37 @@ h1{
     font-size:22px;
     transition: all 0.5s;
 }
+#robotPods{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-top:30px;
+    gap:20px;
+}
+.pod{
+    width:150px;
+    height:200px;
+    background:#111;
+    border:2px solid #00ffe7;
+    border-radius:20px;
+    text-align:center;
+    padding:10px;
+    cursor:pointer;
+    box-shadow:0 0 20px #00ffe7;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.pod:hover{
+    transform: translateY(-10px);
+    box-shadow:0 0 40px #00ffe7;
+}
+.pod img{
+    width:100px;
+    height:100px;
+    object-fit:contain;
+    margin-bottom:10px;
+}
 </style>
 </head>
-
 <body>
 
 <div id="bg"></div>
@@ -57,6 +80,7 @@ h1{
 <div id="bot">
 <h1 id="title">POWORBOT 🤖</h1>
 <div id="screen">اختر هويتك…</div>
+<div id="robotPods" style="display:none;"></div>
 </div>
 
 <audio id="audio"></audio>
@@ -68,8 +92,9 @@ const screen = document.getElementById("screen");
 const title = document.getElementById("title");
 const audio = document.getElementById("audio");
 const bg = document.getElementById("bg");
+const robotPods = document.getElementById("robotPods");
 
-// الروابط الصوتية لكل روح
+// الأصوات حسب كل حدث
 const souls = {
     welcome:{ male:"https://ia902905.us.archive.org/20/items/ttsmp3.com_voicetext_2026-1-9_8-24-46_202601/ttsMP3.com_VoiceText_2026-1-9_8-24-46.mp3", female:"https://archive.org/details/ttsmp3.com_voicetext_2026-1-9_8-31-31_202601"},
     control:{ male:"https://ia601307.us.archive.org/17/items/ttsmp3.com_voicetext_2026-1-9_8-41-25_202601/ttsMP3.com_VoiceText_2026-1-9_8-41-25.mp3", female:"https://ia601307.us.archive.org/11/items/ttsmp3.com_voicetext_2026-1-9_8-46-0_202601/ttsMP3.com_VoiceText_2026-1-9_8-46-0.mp3"},
@@ -79,7 +104,7 @@ const souls = {
     pay:{ male:"https://ia903106.us.archive.org/0/items/07f-99e-96-7562-488a-b-81f-e-2e-213dc-4480_202601/07f99e96-7562-488a-b81f-e2e213dc4480.mp3", female:"https://ia600806.us.archive.org/26/items/31ec-5b-5e-ee-5f-4d-53-a-249-637e-67ab-7c-89_202601/31ec5b5e-ee5f-4d53-a249-637e67ab7c89.mp3"}
 };
 
-// نصوص لكل روح
+// نصوص لكل حدث
 const soulTexts = {
     welcome:"مرحبًا بك… لقد دخلت عالم PoworBot",
     control:"هل تحب أن أسيطر على تجربتك؟",
@@ -89,7 +114,7 @@ const soulTexts = {
     pay:"هل أنت مستعد للانتقال إلى المرحلة القادمة؟"
 };
 
-// تأثيرات بصرية لكل روح
+// تأثيرات لكل حدث
 const soulEffects = {
     welcome: { color:"#00ffe7", bg:"radial-gradient(circle at top,#001111,#000000)", shadow:"0 0 40px #00ffe7" },
     control: { color:"#ff4444", bg:"radial-gradient(circle at top,#110000,#000000)", shadow:"0 0 40px #ff4444" },
@@ -99,10 +124,28 @@ const soulEffects = {
     pay: { color:"#00ff88", bg:"radial-gradient(circle at top,#001122,#000000)", shadow:"0 0 40px #00ff88" }
 };
 
-// ترتيب الروح حسب التسلسل
+// الترتيب التلقائي للأحداث
 const soulOrder = ["welcome","control","mystery","like","sell","pay"];
 
-// اختيار الصوت الحالي وتشغيله
+// الروبوتات (نماذج تجريبية)
+const robots = [
+    {name:"Robo-X", price:"100 Credits", img:"https://via.placeholder.com/100?text=Robo-X"},
+    {name:"Mecha-Y", price:"200 Credits", img:"https://via.placeholder.com/100?text=Mecha-Y"},
+    {name:"Auto-Z", price:"300 Credits", img:"https://via.placeholder.com/100?text=Auto-Z"}
+];
+
+function showRobotPods(){
+    robotPods.innerHTML = "";
+    robotPods.style.display = "flex";
+    robots.forEach((r,i)=>{
+        const pod = document.createElement("div");
+        pod.className="pod";
+        pod.innerHTML=`<img src="${r.img}"><div>${r.name}</div><div>${r.price}</div>`;
+        pod.onclick=()=>{ currentSoulIndex=soulOrder.indexOf("sell"); playCurrentSoul(); };
+        robotPods.appendChild(pod);
+    });
+}
+
 function playCurrentSoul(){
     const soul = soulOrder[currentSoulIndex];
     audio.src = souls[soul][gender];
@@ -112,28 +155,30 @@ function playCurrentSoul(){
     screen.style.boxShadow = effect.shadow;
     title.style.color = effect.color;
     bg.style.background = effect.bg;
+    if(soul==="sell") showRobotPods();
 }
 
-// عند اختيار الجنس يبدأ الروبوت تلقائيًا
+// بدء التجربة
 function setGender(g){
-    gender = g;
-    currentSoulIndex = 0;
+    gender=g;
+    currentSoulIndex=0;
     playCurrentSoul();
 }
 
 // الانتقال التلقائي بعد انتهاء الصوت
-audio.onended = () => {
+audio.onended = ()=>{
     currentSoulIndex++;
-    if(currentSoulIndex < soulOrder.length){
+    if(currentSoulIndex<soulOrder.length){
         playCurrentSoul();
     } else {
-        screen.innerHTML = "تمت جميع التفاعلات… شكراً لزيارتك!";
-        title.style.color = "#8888ff";
-        bg.style.background = "radial-gradient(circle at top,#000022,#000000)";
+        screen.innerHTML="تمت جميع التفاعلات… شكراً لزيارتك!";
+        robotPods.style.display="none";
+        title.style.color="#8888ff";
+        bg.style.background="radial-gradient(circle at top,#000022,#000000)";
     }
 };
 
-// بدء الاختيار عند تحميل الصفحة
+// شاشة البداية لاختيار الجنس
 screen.innerHTML = 'اختر هويتك…<br><button onclick="setGender(\'male\')">أنا رجل</button> <button onclick="setGender(\'female\')">أنا امرأة</button>';
 </script>
 
