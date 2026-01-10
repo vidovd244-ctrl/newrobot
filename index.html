@@ -7,59 +7,59 @@
 
 <style>
 body{
-margin:0;
-background:black;
-color:#00ffe7;
-font-family: Arial;
-overflow:hidden;
+    margin:0;
+    background:black;
+    color:#00ffe7;
+    font-family: Arial;
+    overflow:hidden;
 }
 
 #bg{
-position:fixed;
-width:100%;
-height:100%;
-background:radial-gradient(circle at top,#001111,#000000);
-z-index:-1;
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:radial-gradient(circle at top,#001111,#000000);
+    z-index:-1;
 }
 
 #bot{
-text-align:center;
-margin-top:50px;
+    text-align:center;
+    margin-top:50px;
 }
 
 h1{
-font-size:42px;
-letter-spacing:4px;
+    font-size:42px;
+    letter-spacing:4px;
 }
 
 #screen{
-margin:40px auto;
-width:80%;
-max-width:500px;
-padding:30px;
-border:2px solid #00ffe7;
-border-radius:20px;
-box-shadow:0 0 40px #00ffe7;
-min-height:140px;
-font-size:22px;
+    margin:40px auto;
+    width:80%;
+    max-width:500px;
+    padding:30px;
+    border:2px solid #00ffe7;
+    border-radius:20px;
+    box-shadow:0 0 40px #00ffe7;
+    min-height:140px;
+    font-size:22px;
 }
 
 button{
-background:black;
-border:2px solid #00ffe7;
-color:#00ffe7;
-padding:15px 30px;
-font-size:18px;
-border-radius:30px;
-cursor:pointer;
-margin:10px;
-transition:0.3s;
+    background:black;
+    border:2px solid #00ffe7;
+    color:#00ffe7;
+    padding:15px 30px;
+    font-size:18px;
+    border-radius:30px;
+    cursor:pointer;
+    margin:10px;
+    transition:0.3s;
 }
 
 button:hover{
-background:#00ffe7;
-color:black;
-box-shadow:0 0 20px #00ffe7;
+    background:#00ffe7;
+    color:black;
+    box-shadow:0 0 20px #00ffe7;
 }
 </style>
 </head>
@@ -84,53 +84,90 @@ const screen = document.getElementById("screen");
 const audio = document.getElementById("audio");
 
 const voices = {
-welcome:{ male:"https://ia902905.us.archive.org/20/items/ttsmp3.com_voicetext_2026-1-9_8-24-46_202601/ttsMP3.com_VoiceText_2026-1-9_8-24-46.mp3", female:"https://archive.org/details/ttsmp3.com_voicetext_2026-1-9_8-31-31_202601"},
-control:{ male:"https://ia601709.us.archive.org/34/items/ttsmp3.com_voicetext_2026-1-9_8-36-29_20260110/ttsMP3.com_VoiceText_2026-1-9_8-36-29.mp3", female:"https://ia600203.us.archive.org/35/items/ttsmp3.com_voicetext_2026-1-9_8-38-13_20260110/ttsMP3.com_VoiceText_2026-1-9_8-38-13.mp3"},
-like:{ male:"https://ia601307.us.archive.org/17/items/ttsmp3.com_voicetext_2026-1-9_8-41-25_202601/ttsMP3.com_VoiceText_2026-1-9_8-41-25.mp3", female:"https://ia601307.us.archive.org/11/items/ttsmp3.com_voicetext_2026-1-9_8-46-0_202601/ttsMP3.com_VoiceText_2026-1-9_8-46-0.mp3"},
-mystery:{ male:"https://ia600908.us.archive.org/21/items/ttsmp3.com_voicetext_2026-1-9_8-49-22_202601/ttsMP3.com_VoiceText_2026-1-9_8-49-22.mp3", female:"https://ia600307.us.archive.org/34/items/4b-6e-249b-944d-4a-63-bbac-21dfc-941f-412_202601/4b6e249b-944d-4a63-bbac-21dfc941f412.mp3"},
-pay:{ male:"https://ia601703.us.archive.org/27/items/1e-5c-18cc-3c-46-42d-1-98ec-069e-8a-53e-5b-0_20260110/1e5c18cc-3c46-42d1-98ec-069e8a53e5b0.mp3", female:"https://ia903102.us.archive.org/23/items/a7b7861e-a627-4a39-be55-5e734753e9b6_202601/a7b7861e-a627-4a39-be55-5e734753e9b6.mp3"},
-sell:{ male:"https://ia903106.us.archive.org/0/items/07f-99e-96-7562-488a-b-81f-e-2e-213dc-4480_202601/07f99e96-7562-488a-b81f-e2e213dc4480.mp3", female:"https://ia600806.us.archive.org/26/items/31ec-5b-5e-ee-5f-4d-53-a-249-637e-67ab-7c-89_202601/31ec5b5e-ee5f-4d53-a249-637e67ab7c89.mp3"}
+    welcome:{ 
+        male:"https://ia902905.us.archive.org/20/items/ttsmp3.com_voicetext_2026-1-9_8-24-46_202601/ttsMP3.com_VoiceText_2026-1-9_8-24-46.mp3", 
+        female:"https://archive.org/details/ttsmp3.com_voicetext_2026-1-9_8-31-31_202601"
+    },
+    intro:{
+        male:"https://archive.org/details/intro_male.mp3",
+        female:"https://archive.org/details/intro_female.mp3"
+    },
+    control:{ 
+        male:"https://ia601709.us.archive.org/34/items/ttsmp3.com_voicetext_2026-1-9_8-36-29_20260110/ttsMP3.com_VoiceText_2026-1-9_8-36-29.mp3", 
+        female:"https://ia600203.us.archive.org/35/items/ttsmp3.com_voicetext_2026-1-9_8-38-13_20260110/ttsMP3.com_VoiceText_2026-1-9_8-38-13.mp3"
+    },
+    mystery:{ 
+        male:"https://ia600908.us.archive.org/21/items/ttsmp3.com_voicetext_2026-1-9_8-49-22_202601/ttsMP3.com_VoiceText_2026-1-9_8-49-22.mp3", 
+        female:"https://ia600307.us.archive.org/34/items/4b-6e-249b-944d-4a-63-bbac-21dfc-941f-412_202601/4b6e249b-944d-4a63-bbac-21dfc941f412.mp3"
+    },
+    like:{ 
+        male:"https://ia601307.us.archive.org/17/items/ttsmp3.com_voicetext_2026-1-9_8-41-25_202601/ttsMP3.com_VoiceText_2026-1-9_8-41-25.mp3", 
+        female:"https://ia601307.us.archive.org/11/items/ttsmp3.com_voicetext_2026-1-9_8-46-0_202601/ttsMP3.com_VoiceText_2026-1-9_8-46-0.mp3"
+    },
+    curiosity:{
+        male:"https://archive.org/details/curiosity_male.mp3",
+        female:"https://archive.org/details/curiosity_female.mp3"
+    },
+    sell:{ 
+        male:"https://ia903106.us.archive.org/0/items/07f-99e-96-7562-488a-b-81f-e-2e-213dc-4480_202601/07f99e96-7562-488a-b81f-e2e213dc4480.mp3", 
+        female:"https://ia600806.us.archive.org/26/items/31ec-5b-5e-ee-5f-4d-53-a-249-637e-67ab-7c-89_202601/31ec5b5e-ee5f-4d53-a249-637e67ab7c89.mp3"
+    },
+    buy:{
+        male:"https://archive.org/details/buy_male.mp3",
+        female:"https://archive.org/details/buy_female.mp3"
+    },
+    pay:{ 
+        male:"https://ia601703.us.archive.org/27/items/1e-5c-18cc-3c-46-42d-1-98ec-069e-8a-53e-5b-0_20260110/1e5c18cc-3c46-42d1-98ec-069e8a53e5b0.mp3", 
+        female:"https://ia903102.us.archive.org/23/items/a7b7861e-a627-4a39-be55-5e734753e9b6_202601/a7b7861e-a627-4a39-be55-5e734753e9b6.mp3"
+    },
+    success:{
+        male:"https://archive.org/details/success_male.mp3",
+        female:"https://archive.org/details/success_female.mp3"
+    },
+    warning:{
+        male:"https://archive.org/details/warning_male.mp3",
+        female:"https://archive.org/details/warning_female.mp3"
+    },
+    goodbye:{
+        male:"https://archive.org/details/goodbye_male.mp3",
+        female:"https://archive.org/details/goodbye_female.mp3"
+    }
 };
 
-function play(type){
-audio.src = voices[type][gender];
-audio.play();
+// خطوات العرض مع النصوص
+const steps = [
+    {voice:"welcome", text:"مرحبًا بك… لقد دخلت عالم PoworBot"},
+    {voice:"intro", text:"أنا PoworBot، مساعدك المستقبلي"},
+    {voice:"control", text:"هل تحب أن أسيطر على تجربتك؟"},
+    {voice:"mystery", text:"هناك شيء غير واضح سيغير مستقبلك…"},
+    {voice:"like", text:"أنا أشعر بك… هل تريد الاستمرار؟"},
+    {voice:"curiosity", text:"هل ترغب في اكتشاف المزيد؟"},
+    {voice:"sell", text:"أنا أملك ما تبحث عنه…"},
+    {voice:"buy", text:"هل ترغب بالحصول عليه الآن؟"},
+    {voice:"pay", text:"هل أنت مستعد للانتقال إلى المرحلة القادمة؟"},
+    {voice:"success", text:"تمت العملية بنجاح!"},
+    {voice:"warning", text:"انتبه، هناك شيء يحتاج انتباهك…"},
+    {voice:"goodbye", text:"إلى اللقاء… أراك قريبًا!"}
+];
+
+let currentStep = 0;
+
+function playStep(){
+    if(currentStep >= steps.length) return;
+    const step = steps[currentStep];
+    audio.src = voices[step.voice][gender];
+    audio.play();
+    screen.innerHTML = step.text;
+    currentStep++;
+    // انتقل للخطوة التالية بعد طول الصوت + نصف ثانية
+    audio.onended = () => {
+        setTimeout(playStep, 500);
+    };
 }
 
 function setGender(g){
-gender=g;
-play("welcome");
-screen.innerHTML = "مرحبًا بك… لقد دخلت عالم PoworBot";
-setTimeout(step1,3000);
-}
-
-function step1(){
-play("control");
-screen.innerHTML = "هل تحب أن أسيطر على تجربتك؟";
-setTimeout(step2,4000);
-}
-
-function step2(){
-play("mystery");
-screen.innerHTML = "هناك شيء غير واضح سيغير مستقبلك…";
-setTimeout(step3,4000);
-}
-
-function step3(){
-play("like");
-screen.innerHTML = "أنا أشعر بك… هل تريد الاستمرار؟";
-setTimeout(step4,4000);
-}
-
-function step4(){
-play("sell");
-screen.innerHTML = "أنا أملك ما تبحث عنه…";
-setTimeout(step5,4000);
-}
-
-function step5(){
-play("pay");
-screen.innerHTML = "هل أنت مستعد للانتقال إلى المرحلة القادمة؟";
+    gender=g;
+    playStep(); // يبدأ الخطوة الأولى مباشرة
 }
 </script>
 
