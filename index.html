@@ -84,12 +84,12 @@ const screen = document.getElementById("screen");
 const audio = document.getElementById("audio");
 
 const voices = {
-welcome:{ male:"https://ia902905.us.archive.org/20/items/ttsmp3.com_voicetext_2026-1-9_8-24-46_202601/ttsMP3.com_VoiceText_2026-1-9_8-24-46.mp3", female:"4b6e249b-944d-4a63-bbac-21dfc941f412.mp3"},
-control:{ male:"07f99e96-7562-488a-b81f-e2e213dc4480.mp3", female:"31ec5b5e-ee5f-4d53-a249-637e67ab7c89.mp3"},
-like:{ male:"a7b7861e-a627-4a39-be55-5e734753e9b6.mp3", female:"ttsMP3.com_VoiceText_2026-1-9_8-24-46.mp3"},
-mystery:{ male:"ttsMP3.com_VoiceText_2026-1-9_8-31-31.mp3", female:"ttsMP3.com_VoiceText_2026-1-9_8-36-29.mp3"},
-pay:{ male:"ttsMP3.com_VoiceText_2026-1-9_8-38-13.mp3", female:"ttsMP3.com_VoiceText_2026-1-9_8-41-25.mp3"},
-sell:{ male:"ttsMP3.com_VoiceText_2026-1-9_8-46-0.mp3", female:"ttsMP3.com_VoiceText_2026-1-9_8-49-22.mp3"}
+welcome:{ male:"https://ia902905.us.archive.org/20/items/ttsmp3.com_voicetext_2026-1-9_8-24-46_202601/ttsMP3.com_VoiceText_2026-1-9_8-24-46.mp3", female:"https://archive.org/details/ttsmp3.com_voicetext_2026-1-9_8-31-31_202601"},
+control:{ male:"https://ia601709.us.archive.org/34/items/ttsmp3.com_voicetext_2026-1-9_8-36-29_20260110/ttsMP3.com_VoiceText_2026-1-9_8-36-29.mp3", female:"https://ia600203.us.archive.org/35/items/ttsmp3.com_voicetext_2026-1-9_8-38-13_20260110/ttsMP3.com_VoiceText_2026-1-9_8-38-13.mp3"},
+like:{ male:"https://ia601307.us.archive.org/17/items/ttsmp3.com_voicetext_2026-1-9_8-41-25_202601/ttsMP3.com_VoiceText_2026-1-9_8-41-25.mp3", female:"https://ia601307.us.archive.org/11/items/ttsmp3.com_voicetext_2026-1-9_8-46-0_202601/ttsMP3.com_VoiceText_2026-1-9_8-46-0.mp3"},
+mystery:{ male:"https://ia600908.us.archive.org/21/items/ttsmp3.com_voicetext_2026-1-9_8-49-22_202601/ttsMP3.com_VoiceText_2026-1-9_8-49-22.mp3", female:"https://ia600307.us.archive.org/34/items/4b-6e-249b-944d-4a-63-bbac-21dfc-941f-412_202601/4b6e249b-944d-4a63-bbac-21dfc941f412.mp3"},
+pay:{ male:"https://ia601703.us.archive.org/27/items/1e-5c-18cc-3c-46-42d-1-98ec-069e-8a-53e-5b-0_20260110/1e5c18cc-3c46-42d1-98ec-069e8a53e5b0.mp3", female:"https://ia903102.us.archive.org/23/items/a7b7861e-a627-4a39-be55-5e734753e9b6_202601/a7b7861e-a627-4a39-be55-5e734753e9b6.mp3"},
+sell:{ male:"https://ia903106.us.archive.org/0/items/07f-99e-96-7562-488a-b-81f-e-2e-213dc-4480_202601/07f99e96-7562-488a-b81f-e2e213dc4480.mp3", female:"https://ia600806.us.archive.org/26/items/31ec-5b-5e-ee-5f-4d-53-a-249-637e-67ab-7c-89_202601/31ec5b5e-ee5f-4d53-a249-637e67ab7c89.mp3"}
 };
 
 function play(type){
