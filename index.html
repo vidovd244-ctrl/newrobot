@@ -51,7 +51,7 @@ h1{
 }
 .pod{
     width:150px;
-    height:200px;
+    height:220px;
     background:#111;
     border:2px solid #00ffe7;
     border-radius:20px;
@@ -162,16 +162,18 @@ function showRobotPods(){
     robots.forEach(r=>{
         const pod = document.createElement("div");
         pod.className="pod";
-        pod.innerHTML=`<img src="${r.img}"><div>${r.name}</div><div>${r.price}</div>`;
+        pod.innerHTML=`
+            <img src="${r.img}" alt="${r.name}">
+            <div>${r.name}</div>
+            <div>${r.price}</div>
+        `;
         
         let played = false; // منع تكرار الصوت
         pod.onclick = ()=>{
             if(played) return; // يمنع إعادة التشغيل
             
-            // ايقاف الصوت الرئيسي فورًا
-            mainAudio.pause();
+            mainAudio.pause(); // ايقاف الصوت الرئيسي
             
-            // تشغيل صوت الروبوت
             const audioPod = new Audio(r.sound);
             audioPod.play();
             
@@ -181,12 +183,13 @@ function showRobotPods(){
                 playedText[r.name]=true;
             }
             
-            played = true; // تم التشغيل، لا يعاد
+            played = true; // منع أي click لاحق
             
             // تأثير بصري
             pod.style.transform="scale(1.1)";
             setTimeout(()=>{pod.style.transform="scale(1)";},300);
         };
+
         robotPods.appendChild(pod);
     });
 }
